@@ -1,2 +1,4 @@
 /mysql/data
 /backend/node_modules
+
+/backend/.eslintcache
