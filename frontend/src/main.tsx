@@ -1,17 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.tsx";
 import "./index.css";
+import FoodList from './pages/FoodList';
+import FooterBar from './components/FooterBar';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element:
+      <div>Hello world
+        <div>
+          <FooterBar />
+        </div>
+      </div>,
   },
   {
-    path: "/app", // 消していい
-    element: <App />,
+    path: "/food-list",
+    element: <FoodList />,
   },
 ]);
 
