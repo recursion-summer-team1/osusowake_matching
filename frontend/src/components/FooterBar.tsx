@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const FooterBar: React.FC = () => {
   return (
@@ -18,7 +18,10 @@ const FooterBar: React.FC = () => {
             {/* Your icon for Chat */}
             💬
           </Link>
-          <Link to="/transaction-list" className="flex-1 text-center text-white">
+          <Link
+            to="/transaction-list"
+            className="flex-1 text-center text-white"
+          >
             {/* Your icon for Transaction List */}
             📋
           </Link>

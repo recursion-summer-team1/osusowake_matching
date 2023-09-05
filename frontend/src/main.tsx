@@ -2,22 +2,29 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import FoodList from './pages/FoodList';
-import FooterBar from './components/FooterBar';
+import ChatPage from "./pages/ChatPage.tsx";
+import FoodList from "./pages/FoodList";
+import FooterBar from "./components/FooterBar";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element:
-      <div>Hello world
+    element: (
+      <div>
+        Hello world
         <div>
           <FooterBar />
         </div>
-      </div>,
+      </div>
+    ),
   },
   {
     path: "/food-list",
     element: <FoodList />,
+  },
+  {
+    path: "/chat",
+    element: <ChatPage />,
   },
 ]);
 
