@@ -1,7 +1,7 @@
-const pool = require('../../mysqlConnection');
+const pool = require("../../mysqlConnection");
 
-const getUser = (req, res, next) => {
-  pool.query('SELECT * from users;', (err, results, fields) => {
+const getUser = (req, res) => {
+  pool.query("SELECT * from users;", (err, results) => {
     if (err) {
       console.error("user.js: sql execute error");
     } else {
