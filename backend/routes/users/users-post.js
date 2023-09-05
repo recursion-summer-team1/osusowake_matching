@@ -22,7 +22,12 @@ const createUser = (req, res) => {
           console.error("userController: createUser SQL execute error:", err);
           return res.status(500).send("Internal Server error");
         } else {
-          res.status(201).send({ userId: results.insertId, userName, email, token: "rakutenToken" });
+          res.status(201).send({
+            userId: results.insertId,
+            userName,
+            email,
+            token: "rakutenToken",
+          });
         }
       },
     );

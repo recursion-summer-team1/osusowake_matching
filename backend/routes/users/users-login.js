@@ -31,7 +31,7 @@ const loginUser = (req, res) => {
       }
 
       res.json({
-        token: "rakutenToken" 
+        token: "rakutenToken",
       });
     });
   });
