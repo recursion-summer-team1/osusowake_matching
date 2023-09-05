@@ -1,8 +1,10 @@
 import React from "react";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
+
 import { Link } from "react-router-dom";
 import { foodItems } from "./DummyFoodData";
+
 
 const FoodList: React.FC = () => {
   return (

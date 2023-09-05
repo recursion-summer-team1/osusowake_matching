@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import FoodList from "./pages/FoodList";
 import FoodDetails from "./pages/FoodDetails";
+import ChatPage from "./pages/ChatPage.tsx";
 import FooterBar from "./components/FooterBar";
 
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/food-details/:id",
     element: <FoodDetails />,
+  },
+  {
+    path: "/chat",
+    element: <ChatPage />,
   },
 ]);
 
