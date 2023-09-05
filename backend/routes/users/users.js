@@ -5,6 +5,7 @@ const getUser = require("./users-get");
 const crateUser = require("./users-post");
 const deleteUser = require("./users-delete");
 const updateUser = require("./users-update");
+const loginUser = require("./users-login");
 
 /* GET User listing. */
 router.get("/:id", getUser);
@@ -14,5 +15,7 @@ router.post("/signup", crateUser);
 router.delete("/:id", deleteUser);
 /* PUT User */
 router.put("/:id", updateUser);
+/* POST Login */
+router.post("/login", loginUser);
 
 module.exports = router;
