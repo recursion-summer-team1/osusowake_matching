@@ -1,6 +1,9 @@
-INSERT INTO `users` (name, email, password) VALUES("taro", 'hoge@fuga.com', 'pass123');
-INSERT INTO `users` (name) VALUES("jiro");
-INSERT INTO `users` (name) VALUES("tanaka");
+INSERT INTO `User` (`userName`, `email`, `password`) 
+VALUES
+('ユーザー1', 'user1@example.com', 'password1'),
+('ユーザー2', 'user2@example.com', 'password2'),
+('ユーザー3', 'user3@example.com', 'password3');
+
 
 INSERT INTO `Food` (userId, foodName, foodImageUrl, expirationDate, quantity, unit, description)
 VALUES
