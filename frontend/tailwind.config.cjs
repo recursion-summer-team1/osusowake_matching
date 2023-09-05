@@ -11,6 +11,7 @@ module.exports = {
           ...require("daisyui/src/theming/themes")["[data-theme=cupcake]"],
           // "primary": "blue",
         },
-      },]
+      },
+    ],
   },
 };
