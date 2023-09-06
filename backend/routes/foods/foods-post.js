@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
     cb(null, storagePath);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
@@ -23,7 +23,7 @@ const upload = multer({ storage: storage });
 
 const postFood = (req, res) => {
   // 必須のフィールドがnullであるかどうかをチェック
-  if ( !req.body.userId || !req.body.foodName ) {
+  if (!req.body.userId || !req.body.foodName) {
     return res.status(400).send({
       message: "Bad Request",
       error: "userId or foodName cannot be null",
@@ -31,7 +31,7 @@ const postFood = (req, res) => {
   }
   const userId = parseInt(req.body.userId);
   const quantity = parseFloat(req.body.quantity);
-  const isSoldOut = req.body.isSoldOut === 'true';
+  const isSoldOut = req.body.isSoldOut === "true";
 
   const foodImageUrl = req.file ? req.file.path : null;
 
@@ -78,5 +78,5 @@ const postFood = (req, res) => {
 };
 
 module.exports = {
-  postFood: [upload.single("foodImage"), postFood]
+  postFood: [upload.single("foodImage"), postFood],
 };
