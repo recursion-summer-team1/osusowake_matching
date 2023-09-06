@@ -1,10 +1,10 @@
 const pool = require("../../mysqlConnection");
 
 const deleteChatById = (req, res) => {
-  const foodId = req.params.dealid;
+  const dealId = req.params.dealid;
 
   // IDのバリデーション
-  if (!Number.isInteger(parseInt(foodId))) {
+  if (!Number.isInteger(parseInt(dealId))) {
     return res.status(400).send({
       message: "Bad Request",
       error: "Invalid dealId",
@@ -12,7 +12,7 @@ const deleteChatById = (req, res) => {
   }
 
   // SQLのDELETEクエリの実行
-  pool.query("DELETE FROM Chat WHERE dealId = ?", [foodId], (err, results) => {
+  pool.query("DELETE FROM Chat WHERE dealId = ?", [dealId], (err, results) => {
     if (err) {
       console.error("chats-delete.js: sql execute error", err);
       return res.status(500).send({
@@ -25,7 +25,7 @@ const deleteChatById = (req, res) => {
     if (results.affectedRows === 0) {
       return res.status(404).send({
         message: "Not Found",
-        error: "No food with the specified ID was found.",
+        error: "No chat with the specified ID was found.",
       });
     }
 

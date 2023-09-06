@@ -20,7 +20,7 @@ const getChat = (req, res) => {
       }
 
       console.log("chats.js: sql execute success");
-      res.json(results[0]); // 最初の結果のみを返す
+      res.json(results); // 最初の結果のみを返す
     },
   );
 };
