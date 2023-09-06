@@ -3,6 +3,7 @@ const pool = require("../../mysqlConnection");
 const getFood = (req, res) => {
   const sql = `
   SELECT
+    Food.foodId,
     Food.foodName,
     Food.foodImageUrl,
     User.UserId,

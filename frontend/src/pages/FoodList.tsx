@@ -4,8 +4,16 @@ import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 
+type FoodItem = {
+  foodId: number;
+  userId: number;
+  userName: string;
+  foodName: string;
+  foodImageUrl: string;
+};
+
 const FoodList: React.FC = () => {
-  const [foodData, setFoodData] = useState([]);
+  const [foodData, setFoodData] = useState<FoodItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,10 +37,16 @@ const FoodList: React.FC = () => {
       <div className="flex-grow overflow-y-auto">
         <div className="grid grid-cols-2 gap-4 p-4">
           {foodData.map((item) => (
-            <div key={item.UserId} className="relative">
-              <Link to={`/food-details/${item.UserId}`}>
+            <div key={item.foodId} className="relative">
+              <Link to={`/food-details/${item.userId}`}>
                 <img
-                  src={item.foodImageUrl}
+                  src={
+                    item.foodImageUrl.startsWith("http")
+                      ? item.foodImageUrl
+                      : `http://localhost:3000/images/foods/${item.foodImageUrl
+                          .split("/")
+                          .pop()}`
+                  }
                   alt={item.userName}
                   className="w-full h-full object-cover"
                 />
@@ -52,4 +66,3 @@ const FoodList: React.FC = () => {
 };
 
 export default FoodList;
-
