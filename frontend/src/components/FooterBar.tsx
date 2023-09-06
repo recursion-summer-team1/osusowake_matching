@@ -6,7 +6,7 @@ const FooterBar: React.FC = () => {
   const activeDict = useMemo(() => {
     const pathNames = [
       "food-list",
-      "food-detail",
+      "food-registration",
       "chat",
       "deal-list",
     ] as const;
@@ -31,8 +31,8 @@ const FooterBar: React.FC = () => {
         🍎
       </Link>
       <Link
-        to="/food-detail"
-        className={`${activeDict["food-detail"]} flex-1 text-center text-info`}
+        to="/food-registration"
+        className={`${activeDict["food-registration"]} flex-1 text-center text-info`}
       >
         {/* Your icon for Product Detail */}
         📝

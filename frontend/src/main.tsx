@@ -5,6 +5,7 @@ import "./index.css";
 import FoodList from "./pages/FoodList";
 import FoodDetails from "./pages/FoodDetails";
 import ChatPage from "./pages/ChatPage.tsx";
+import FoodRegistration from "./pages/FoodRegistration.tsx";
 import FooterBar from "./components/FooterBar";
 import DealPage from "./pages/DealPage.tsx";
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/chat",
     element: <ChatPage />,
+  },
+  {
+    path: "/food-registration",
+    element: <FoodRegistration />,
   },
   {
     path: "/deal-list",

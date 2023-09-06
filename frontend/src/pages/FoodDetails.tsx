@@ -79,12 +79,20 @@ const FoodDetails: React.FC = () => {
               onChange={(e) => setInitialMessage(e.target.value)}
               className="border p-2 rounded w-full"
             />
-            <button
-              className="bg-green-500 text-white p-2 rounded mt-4"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
+            <div className="flex justify-between mt-4">
+              <button
+                className="bg-green-500 text-white p-2 rounded"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+              <button
+                className="bg-red-500 text-white p-2 rounded"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
