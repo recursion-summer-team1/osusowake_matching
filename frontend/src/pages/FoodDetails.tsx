@@ -28,11 +28,12 @@ const FoodDetails: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      axios.get<FoodItem>(`http://localhost:3000/foods/${id}`)
-        .then(response => {
+      axios
+        .get<FoodItem>(`http://localhost:3000/foods/${id}`)
+        .then((response) => {
           setFoodItem(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("There was an error fetching the food item:", error);
         });
     }

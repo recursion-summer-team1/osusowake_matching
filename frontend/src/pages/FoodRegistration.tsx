@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import FooterBar from "../components/FooterBar";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 const FoodRegistration: React.FC = () => {
   const navigate = useNavigate();
@@ -17,14 +17,14 @@ const FoodRegistration: React.FC = () => {
     unit: string;
     description: string;
   }>({
-    userId: '1', 
-    foodName: '',
+    userId: "1",
+    foodName: "",
     foodImage: null,
-    isSoldOut: '',
-    expirationDate: '',
+    isSoldOut: "",
+    expirationDate: "",
     quantity: 0,
-    unit: '',
-    description: ''
+    unit: "",
+    description: "",
   });
 
   const [showPopup, setShowPopup] = useState(false);
@@ -58,24 +58,25 @@ const FoodRegistration: React.FC = () => {
     data.append("expirationDate", formData.expirationDate);
     data.append("quantity", formData.quantity.toString());
     data.append("unit", formData.unit);
-    if (formData.description){
+    if (formData.description) {
       data.append("description", formData.description);
     }
-    
+
     // Send POST request to /foods API
-    axios.post('http://localhost:3000/foods', data, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then(response => {
-      console.log('Food item registered:', response.data);
-      setShowPopup(false);
-      navigate("/food-list");
-    })
-    .catch(error => {
-      console.error('There was an error registering the food item:', error);
-    });
+    axios
+      .post("http://localhost:3000/foods", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("Food item registered:", response.data);
+        setShowPopup(false);
+        navigate("/food-list");
+      })
+      .catch((error) => {
+        console.error("There was an error registering the food item:", error);
+      });
   };
 
   // Function to handle image upload
@@ -97,14 +98,44 @@ const FoodRegistration: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <Header title="Food Registration" />
       <div className="p-4 flex-grow items-center justify-center overflow-y-auto">
-        <form onSubmit={handleSubmit} style={{ maxWidth: '100%', textAlign: 'center' }}>
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="foodName" style={{ display: 'block', marginBottom: '5px' }}>Food Name</label>
-            <input required type="text" id="foodName" name="foodName" onChange={handleChange} style={{textAlign:"center",width: '100%',border: "1px solid #ccc",background: "white",}}/>
+        <form
+          onSubmit={handleSubmit}
+          style={{ maxWidth: "100%", textAlign: "center" }}
+        >
+          <div style={{ marginBottom: "15px" }}>
+            <label
+              htmlFor="foodName"
+              style={{ display: "block", marginBottom: "5px" }}
+            >
+              Food Name
+            </label>
+            <input
+              required
+              type="text"
+              id="foodName"
+              name="foodName"
+              onChange={handleChange}
+              style={{
+                textAlign: "center",
+                width: "100%",
+                border: "1px solid #ccc",
+                background: "white",
+              }}
+            />
           </div>
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="foodImage" style={{ display: 'block', marginBottom: '5px' }}>Food Image</label>
-            <input type="file" id="foodImage" name="foodImage" onChange={handleImageUpload} />
+          <div style={{ marginBottom: "15px" }}>
+            <label
+              htmlFor="foodImage"
+              style={{ display: "block", marginBottom: "5px" }}
+            >
+              Food Image
+            </label>
+            <input
+              type="file"
+              id="foodImage"
+              name="foodImage"
+              onChange={handleImageUpload}
+            />
           </div>
           <div style={{ marginBottom: "15px" }}>
             <label
