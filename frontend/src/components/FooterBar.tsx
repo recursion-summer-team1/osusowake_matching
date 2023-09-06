@@ -9,7 +9,10 @@ const FooterBar: React.FC = () => {
           <Link to="/food-list" className="flex-1 text-center text-white">
             🍎
           </Link>
-          <Link to="/food-registration" className="flex-1 text-center text-white">
+          <Link
+            to="/food-registration"
+            className="flex-1 text-center text-white"
+          >
             📝
           </Link>
           <Link to="/chat" className="flex-1 text-center text-white">
