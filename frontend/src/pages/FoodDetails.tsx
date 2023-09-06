@@ -85,12 +85,12 @@ const FoodDetails: React.FC = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    const year = date.getFullYear()
+    const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
 
     return `${year}/${month}/${day}`;
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -101,16 +101,16 @@ const FoodDetails: React.FC = () => {
             src={
               foodItem.foodImageUrl.startsWith("http")
                 ? foodItem.foodImageUrl
-                : `http://localhost:3000/images/foods/${foodItem.foodImageUrl
-                    .split("/")
-                    .pop()}`
+                : `http://localhost:3000/images/foods/${foodItem.foodImageUrl}`
             }
             alt={foodItem.foodName}
             className="w-full h-full object-cover"
           />
           <h1 className="text-2xl font-bold">{foodItem.foodName}</h1>
           <p className="text-lg">Owner: {foodItem.userId}</p>
-          <p className="text-lg">Expiration Date: {formatDate(foodItem.expirationDate)}</p>
+          <p className="text-lg">
+            Expiration Date: {formatDate(foodItem.expirationDate)}
+          </p>
           <p className="text-lg">Quantity: {foodItem.quantity}</p>
 
           <div className="mt-6">

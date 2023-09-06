@@ -10,7 +10,7 @@ interface FoodItem {
   userName: string;
   foodName: string;
   foodImageUrl: string;
-};
+}
 
 const FoodList: React.FC = () => {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
@@ -42,9 +42,7 @@ const FoodList: React.FC = () => {
                   src={
                     item.foodImageUrl.startsWith("http")
                       ? item.foodImageUrl
-                      : `http://localhost:3000/images/foods/${item.foodImageUrl
-                          .split("/")
-                          .pop()}`
+                      : `http://localhost:3000/images/foods/${item.foodImageUrl}`
                   }
                   alt={item.userName}
                   className="w-full h-full object-cover"
