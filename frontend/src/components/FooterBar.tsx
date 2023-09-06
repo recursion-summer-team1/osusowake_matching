@@ -7,22 +7,18 @@ const FooterBar: React.FC = () => {
       <div className="container mx-auto text-center">
         <div className="flex justify-around">
           <Link to="/food-list" className="flex-1 text-center text-white">
-            {/* Your icon for Product List */}
             🍎
           </Link>
-          <Link to="/food-detail" className="flex-1 text-center text-white">
-            {/* Your icon for Product Detail */}
+          <Link to="/food-registration" className="flex-1 text-center text-white">
             📝
           </Link>
           <Link to="/chat" className="flex-1 text-center text-white">
-            {/* Your icon for Chat */}
             💬
           </Link>
           <Link
             to="/transaction-list"
             className="flex-1 text-center text-white"
           >
-            {/* Your icon for Transaction List */}
             📋
           </Link>
         </div>
