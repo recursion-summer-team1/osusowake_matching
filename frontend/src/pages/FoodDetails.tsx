@@ -47,11 +47,11 @@ const FoodDetails: React.FC = () => {
     setShowModal(true);
   };
 
-  const userId=1
+  const userId = 1;
 
   const createDealAndChat = async () => {
-    console.log("foodId:",foodItem.foodId)
-    console.log("userId",userId)
+    console.log("foodId:", foodItem.foodId);
+    console.log("userId", userId);
     // Create a new deal
     const dealResponse = await axios.post("http://localhost:3000/deals", {
       requesterId: userId,
@@ -60,7 +60,7 @@ const FoodDetails: React.FC = () => {
     });
 
     const dealId = dealResponse.data.insertId;
-    console.log("dealId",dealId)
+    console.log("dealId", dealId);
     console.log("Initial message:", initialMessage);
 
     // Create a new chat message
@@ -89,9 +89,15 @@ const FoodDetails: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-4 flex items-center justify-center">
         <div className="text-center">
           <img
-            src={foodItem.foodImageUrl}
+            src={
+              foodItem.foodImageUrl.startsWith("http")
+                ? foodItem.foodImageUrl
+                : `http://localhost:3000/images/foods/${foodItem.foodImageUrl
+                    .split("/")
+                    .pop()}`
+            }
             alt={foodItem.foodName}
-            className="w-full h-auto mb-4"
+            className="w-full h-full object-cover"
           />
           <h1 className="text-2xl font-bold">{foodItem.foodName}</h1>
           <p className="text-lg">Owner: {foodItem.userId}</p>
