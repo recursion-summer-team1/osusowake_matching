@@ -23,10 +23,16 @@ const upload = multer({ storage: storage });
 
 const postFood = (req, res) => {
   // 必須のフィールドがnullであるかどうかをチェック
-  if (!req.body.userId || !req.body.foodName) {
+  if (
+    !req.body.userId ||
+    !req.body.foodName ||
+    !req.body.quantity ||
+    !req.body.unit ||
+    !req.body.expirationDate
+  ) {
     return res.status(400).send({
       message: "Bad Request",
-      error: "userId or foodName cannot be null",
+      error: "request parameters cannot be null",
     });
   }
   const userId = parseInt(req.body.userId);
