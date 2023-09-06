@@ -11,3 +11,19 @@ VALUES
 (1, 'Banana', 'https://example.com/banana.jpg', '2023-09-28', 3.0, 'pieces', 'Ripe and sweet banana'),
 (2, 'Carrot', 'https://example.com/carrot.jpg', '2023-09-25', 2.5, 'pieces', 'Organic carrot for sale');
 
+INSERT INTO `Deal` (`requesterId`, `foodId`, `isComplete`) 
+VALUES
+(1, 1, TRUE),
+(2, 1, FALSE),
+(2, 2, TRUE);
+
+INSERT INTO `Chat` (`dealId`, `senderId`, `content`) VALUES
+(1, 1, 'ユーザー1からのメッセージ1'),
+(1, 2, 'ユーザー2からのメッセージ1'),
+(2, 1, 'ユーザー1からのメッセージ2');
+
+INSERT INTO `FriendShip` (`followeeId`, `followerId`)
+VALUES
+  (1, 2),  
+  (2, 3),  
+  (3, 1);
