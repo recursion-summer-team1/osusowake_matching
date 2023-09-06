@@ -47,10 +47,35 @@ const FoodDetails: React.FC = () => {
     setShowModal(true);
   };
 
-  const handleSubmit = () => {
+  const userId=1
+
+  const createDealAndChat = async () => {
+    console.log("foodId:",foodItem.foodId)
+    console.log("userId",userId)
+    // Create a new deal
+    const dealResponse = await axios.post("http://localhost:3000/deals", {
+      requesterId: userId,
+      foodId: foodItem.foodId,
+      isComplete: false,
+    });
+
+    const dealId = dealResponse.data.insertId;
+    console.log("dealId",dealId)
     console.log("Initial message:", initialMessage);
+
+    // Create a new chat message
+    await axios.post("http://localhost:3000/chats", {
+      dealId: dealId,
+      senderId: userId,
+      content: initialMessage,
+    });
+  };
+
+  const handleSubmit = async () => {
     setShowModal(false);
     setShowPurchasePopup(true);
+    // Create deal and chat
+    await createDealAndChat();
   };
 
   const closePurchasePopup = () => {
@@ -102,16 +127,16 @@ const FoodDetails: React.FC = () => {
             />
             <div className="flex justify-between mt-4">
               <button
-                className="bg-green-500 text-white p-2 rounded"
-                onClick={handleSubmit}
-              >
-                Submit
-              </button>
-              <button
                 className="bg-red-500 text-white p-2 rounded"
                 onClick={() => setShowModal(false)}
               >
                 Cancel
+              </button>
+              <button
+                className="bg-green-500 text-white p-2 rounded"
+                onClick={handleSubmit}
+              >
+                Submit
               </button>
             </div>
           </div>

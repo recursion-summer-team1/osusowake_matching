@@ -7,6 +7,7 @@ const cors = require("cors");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users/users");
 var foodsRouter = require("./routes/foods/foods");
+var chatsRouter = require("./routes/chats/chats");
 var dealsRouter = require("./routes/deals/deals");
 
 const app = express();
@@ -20,9 +21,9 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/foods", foodsRouter);
+app.use("/chats", chatsRouter);
 app.use("/images", express.static("/var/backend/.data/images"));
 app.use("/deals", dealsRouter);
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

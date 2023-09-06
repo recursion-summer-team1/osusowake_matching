@@ -24,7 +24,6 @@ const FoodList: React.FC = () => {
         console.error("Error fetching the food data:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -38,7 +37,7 @@ const FoodList: React.FC = () => {
         <div className="grid grid-cols-2 gap-4 p-4">
           {foodData.map((item) => (
             <div key={item.foodId} className="relative">
-              <Link to={`/food-details/${item.userId}`}>
+              <Link to={`/food-details/${item.foodId}`}>
                 <img
                   src={
                     item.foodImageUrl.startsWith("http")
