@@ -48,7 +48,7 @@ const ChatPage = () => {
         ))}
       </div>
       {/* Input form */}
-      <form className="sticky flex bottom-12 mx-1 w-[full-2] mb-1 mt-2 justify-center">
+      <form className="sticky flex bottom-14 mx-1 w-[full-2] mb-1 mt-2 justify-center">
         <input
           type="text"
           placeholder="Type your message..."

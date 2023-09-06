@@ -6,6 +6,7 @@ import FoodList from "./pages/FoodList";
 import FoodDetails from "./pages/FoodDetails";
 import ChatPage from "./pages/ChatPage.tsx";
 import FooterBar from "./components/FooterBar";
+import DealPage from "./pages/DealPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/chat",
     element: <ChatPage />,
+  },
+  {
+    path: "/deal-list",
+    element: <DealPage />,
   },
 ]);
 
