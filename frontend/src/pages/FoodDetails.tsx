@@ -83,6 +83,15 @@ const FoodDetails: React.FC = () => {
     navigate("/food-list");
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}/${month}/${day}`;
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header title="Food Details" className="z-50" />
@@ -101,7 +110,7 @@ const FoodDetails: React.FC = () => {
           />
           <h1 className="text-2xl font-bold">{foodItem.foodName}</h1>
           <p className="text-lg">Owner: {foodItem.userId}</p>
-          <p className="text-lg">Expiration Date: {foodItem.expirationDate}</p>
+          <p className="text-lg">Expiration Date: {formatDate(foodItem.expirationDate)}</p>
           <p className="text-lg">Quantity: {foodItem.quantity}</p>
 
           <div className="mt-6">
