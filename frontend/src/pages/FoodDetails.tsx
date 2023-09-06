@@ -1,25 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import Header from "../components/Header";
 import FooterBar from "../components/FooterBar";
-import { foodItems } from "./DummyFoodData";
+
+interface FoodItem {
+  foodId: number;
+  userId: number;
+  foodName: string;
+  foodImageUrl: string;
+  isSoldOut: number;
+  expirationDate: string;
+  quantity: number;
+  unit: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const FoodDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [foodItem, setFoodItem] = useState<FoodItem | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showPurchasePopup, setShowPurchasePopup] = useState(false);
   const [initialMessage, setInitialMessage] = useState("");
   const navigate = useNavigate();
 
-  // Check if id is defined
-  if (!id) {
-    return <div>Invalid ID</div>;
-  }
-
-  const foodItem = foodItems.find((item) => item.foodid === parseInt(id, 10));
+  useEffect(() => {
+    if (id) {
+      axios.get<FoodItem>(`http://localhost:3000/foods/${id}`)
+        .then(response => {
+          setFoodItem(response.data);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the food item:", error);
+        });
+    }
+  }, [id]);
 
   if (!foodItem) {
-    return <div>Item not found</div>;
+    return <div>Loading or Item not found...</div>;
   }
 
   const handleButtonClick = () => {
@@ -44,10 +64,10 @@ const FoodDetails: React.FC = () => {
         <div className="text-center">
           <img
             src={foodItem.foodImageUrl}
-            alt={foodItem.name}
+            alt={foodItem.foodName}
             className="w-full h-auto mb-4"
           />
-          <h1 className="text-2xl font-bold">{foodItem.name}</h1>
+          <h1 className="text-2xl font-bold">{foodItem.foodName}</h1>
           <p className="text-lg">Owner: {foodItem.userId}</p>
           <p className="text-lg">Expiration Date: {foodItem.expirationDate}</p>
           <p className="text-lg">Quantity: {foodItem.quantity}</p>
@@ -102,7 +122,7 @@ const FoodDetails: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100">
           <div className="bg-white p-4 rounded">
             <h2>Purchase Completed</h2>
-            <p>You have successfully purchased {foodItem.name}.</p>
+            <p>You have successfully purchased {foodItem.foodName}.</p>
             <button
               className="bg-blue-500 text-white p-2 rounded mt-4"
               onClick={closePurchasePopup}

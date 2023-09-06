@@ -2,22 +2,20 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import FooterBar from '../components/FooterBar';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const FoodRegistration: React.FC = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    foodId: 0,
-    userId: 0,
+    userId: 1, // Set userId to 1
     foodName: '',
     foodImageUrl: '',
-    isSoldout: false,
+    isSoldOut: false,
     expirationDate: '',
     quantity: 0,
     unit: '',
-    description: '',
-    createdAt: '',
-    updatedAt: ''
+    description: ''
   });
 
   const [showPopup, setShowPopup] = useState(false);
@@ -36,30 +34,42 @@ const FoodRegistration: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    console.log('Form data submitted:', formData);
-    setShowPopup(false);
-    navigate("/food-list");
+    console.log(formData.userId)
+    console.log(formData.expirationDate)
+    // Send POST request to /foods API
+    axios.post('http://localhost:3000/foods', {
+      ...formData,
+      quantity: parseFloat(formData.quantity.toString()), // Convert quantity to float
+    })
+    .then(response => {
+      console.log('Food item registered:', response.data);
+      setShowPopup(false);
+      navigate("/food-list");
+    })
+    .catch(error => {
+      console.error('There was an error registering the food item:', error);
+    });
   };
 
-    // Function to handle image upload
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setFormData({
-            ...formData,
-            foodImageUrl: reader.result as string,
-          });
-        };
-        reader.readAsDataURL(file);
-      }
-    };
+  // Function to handle image upload
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          foodImageUrl: reader.result as string,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header title="Food Registration" />
-      <div className="p-4 flex items-center justify-center overflow-y-auto">
+      <div className="p-4 flex-grow items-center justify-center overflow-y-auto">
         <form onSubmit={handleSubmit} style={{ maxWidth: '100%', textAlign: 'center' }}>
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="foodName" style={{ display: 'block', marginBottom: '5px' }}>Food Name</label>
@@ -67,7 +77,7 @@ const FoodRegistration: React.FC = () => {
           </div>
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="foodImageUrl" style={{ display: 'block', marginBottom: '5px' }}>Food Image</label>
-            <input required type="file" id="foodImageUrl" name="foodImageUrl" onChange={handleImageUpload} />
+            <input type="file" id="foodImageUrl" name="foodImageUrl" onChange={handleImageUpload} />
           </div>
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="expirationDate" style={{ display: 'block', marginBottom: '5px' }}>Expiration Date</label>
