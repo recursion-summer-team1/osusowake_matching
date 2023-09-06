@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const FooterBar: React.FC = () => {
   return (
-    <footer className="fixed inset-x-0 bottom-0 bg-primary py-2">
+    <footer className="sticky inset-x-0 bottom-0 bg-primary py-2">
       <div className="container mx-auto text-center">
         <div className="flex justify-around">
           <Link to="/food-list" className="flex-1 text-center text-white">
