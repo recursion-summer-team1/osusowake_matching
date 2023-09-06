@@ -1,42 +1,84 @@
 const pool = require("../../mysqlConnection");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
+const storagePath = path.join(process.cwd(), ".data/images/foods");
+
+if (!fs.existsSync(storagePath)) {
+  fs.mkdirSync(storagePath, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, storagePath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 const changeFoodById = (req, res) => {
   const foodId = req.params.foodId;
 
-  // IDのバリデーション
-  if (!Number.isInteger(parseInt(foodId))) {
+  // 必須のフィールドがnullであるかどうかをチェック
+  if (
+    !req.body.userId ||
+    !req.body.foodName ||
+    !req.body.quantity ||
+    !req.body.unit ||
+    !req.body.expirationDate
+  ) {
     return res.status(400).send({
       message: "Bad Request",
-      error: "Invalid foodId",
+      error: "request parameters cannot be null",
     });
   }
 
-  // 更新内容の取得
-  const {
-    userId,
-    foodName,
-    foodImageUrl,
-    isSoldOut,
-    expirationDate,
-    quantity,
-    unit,
-    description,
-  } = req.body;
+  const userId = parseInt(req.body.userId);
+  const quantity = parseFloat(req.body.quantity);
+  const isSoldOut = req.body.isSoldOut === "true";
 
-  // SQLのUPDATEクエリの実行
+  if (isNaN(userId) || isNaN(quantity)) {
+    return res.status(400).send({
+      message: "Bad Request",
+      error: "userId or quantity is not a number",
+    });
+  }
+
+  // 既定の更新カラムと値
+  const updateColumns = [
+    "userId=?",
+    "foodName=?",
+    "isSoldOut=?",
+    "expirationDate=?",
+    "quantity=?",
+    "unit=?",
+    "description=?",
+  ];
+  const updateValues = [
+    userId,
+    req.body.foodName,
+    isSoldOut,
+    req.body.expirationDate,
+    quantity,
+    req.body.unit,
+    req.body.description,
+  ];
+
+  // 画像がアップロードされている場合のみ、更新カラムと値を追加
+  if (req.file) {
+    updateColumns.push("foodImageUrl=?");
+    updateValues.push(req.file.path);
+  }
+
+  updateValues.push(foodId);
+
   pool.query(
-    "UPDATE Food SET userId=?, foodName=?, foodImageUrl=?, isSoldOut=?, expirationDate=?, quantity=?, unit=?, description=? WHERE foodId=?",
-    [
-      userId,
-      foodName,
-      foodImageUrl,
-      isSoldOut,
-      expirationDate,
-      quantity,
-      unit,
-      description,
-      foodId,
-    ],
+    `UPDATE Food SET ${updateColumns.join(", ")} WHERE foodId=?`,
+    updateValues,
     (err, results) => {
       if (err) {
         console.error("foods-put.js: sql execute error", err);
@@ -61,4 +103,6 @@ const changeFoodById = (req, res) => {
   );
 };
 
-module.exports = changeFoodById;
+module.exports = {
+  changeFoodById: [upload.single("foodImage"), changeFoodById], // 画像アップロード用のmiddlewareを追加
+};

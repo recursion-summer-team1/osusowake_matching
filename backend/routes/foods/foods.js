@@ -1,11 +1,11 @@
 var express = require("express");
 var router = express.Router();
 
-const postFood = require("./foods-post");
+const { postFood } = require("./foods-post");
 const getFood = require("./foods-get");
 const getFoodById = require("./foods-getbyId");
 const deleteFoodById = require("./foods-deletebyid");
-const changeFoodById = require("./foods-changebyid");
+const { changeFoodById } = require("./foods-changebyid");
 
 /* POST users listing. */
 router.post("/", postFood);
