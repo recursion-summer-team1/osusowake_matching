@@ -10,6 +10,7 @@ const getFood = (req, res) => {
     User.userName
   FROM Food
   JOIN User ON Food.userId = User.userId
+  WHERE Food.isSoldOut = false
   `;
 
   pool.query(sql, (err, results) => {
