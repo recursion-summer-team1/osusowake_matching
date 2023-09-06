@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-const postFood = require("./foods-post");
+const { postFood } = require("./foods-post");
 const getFood = require("./foods-get");
 
 /* POST users listing. */

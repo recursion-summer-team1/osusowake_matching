@@ -1,27 +1,56 @@
 const pool = require("../../mysqlConnection");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
+const storagePath = path.join(process.cwd(), ".data/images/foods");
+
+if (!fs.existsSync(storagePath)) {
+  fs.mkdirSync(storagePath, { recursive: true });
+}
+
+// ファイルの保存先とファイル名を指定
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, storagePath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 const postFood = (req, res) => {
   // 必須のフィールドがnullであるかどうかをチェック
-  if (
-    req.body.expirationDate === null ||
-    req.body.quantity === null ||
-    req.body.unit === null ||
-    req.body.description === null
-  ) {
+  if ( !req.body.userId || !req.body.foodName ) {
     return res.status(400).send({
       message: "Bad Request",
-      error: "expirationDate or quantity cannot be null",
+      error: "userId or foodName cannot be null",
     });
   }
+  const userId = parseInt(req.body.userId);
+  const quantity = parseFloat(req.body.quantity);
+  const isSoldOut = req.body.isSoldOut === 'true';
+
+  const foodImageUrl = req.file ? req.file.path : null;
+
+  if (isNaN(userId) || isNaN(quantity)) {
+    return res.status(400).send({
+      message: "Bad Request",
+      error: "userId or quantity is not a number",
+    });
+  }
+
   pool.query(
-    "INSERT INTO Food (userId, foodName, foodImageUrl, isSoldout, expirationDate, quantity, unit, description) VALUES (?,?,?,?,?,?,?,?)",
+    "INSERT INTO Food (userId, foodName, foodImageUrl, isSoldOut, expirationDate, quantity, unit, description) VALUES (?,?,?,?,?,?,?,?)",
     [
-      req.body.userId,
+      userId,
       req.body.foodName,
-      req.body.foodImageUrl,
-      req.body.isSoldout,
+      foodImageUrl,
+      isSoldOut,
       req.body.expirationDate,
-      req.body.quantity,
+      quantity,
       req.body.unit,
       req.body.description,
     ],
@@ -33,9 +62,21 @@ const postFood = (req, res) => {
           .send({ message: "Internal Server Error", error: err.message });
       }
       console.log("foods.js: sql execute success");
-      res.send(results);
+      res.status(201).send({
+        foodId: results.insertId,
+        userId: userId,
+        foodName: req.body.foodName,
+        foodImageUrl: foodImageUrl,
+        isSoldOut: isSoldOut,
+        expirationDate: req.body.expirationDate,
+        quantity: quantity,
+        unit: req.body.unit,
+        description: req.body.description,
+      });
     },
   );
 };
 
-module.exports = postFood;
+module.exports = {
+  postFood: [upload.single("foodImage"), postFood]
+};
