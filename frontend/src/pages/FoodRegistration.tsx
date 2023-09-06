@@ -59,7 +59,7 @@ const FoodRegistration: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header title="Food Registration" />
-      <div className="p-4 flex items-center justify-center">
+      <div className="p-4 flex items-center justify-center overflow-y-auto">
         <form onSubmit={handleSubmit} style={{ maxWidth: '100%', textAlign: 'center' }}>
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="foodName" style={{ display: 'block', marginBottom: '5px' }}>Food Name</label>
