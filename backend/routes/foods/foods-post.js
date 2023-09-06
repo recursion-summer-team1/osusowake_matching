@@ -31,7 +31,7 @@ const postFood = (req, res) => {
     !req.body.expirationDate
   ) {
     return res.status(400).send({
-      message: "Bad Request",
+      message: "Bad Request!",
       error: "request parameters cannot be null",
     });
   }

@@ -7,11 +7,20 @@ import axios from 'axios';
 const FoodRegistration: React.FC = () => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    userId: 1, // Set userId to 1
+  const [formData, setFormData] = useState<{
+    userId: string;
+    foodName: string;
+    foodImage: File | null;
+    isSoldOut: string;
+    expirationDate: string;
+    quantity: number;
+    unit: string;
+    description: string;
+  }>({
+    userId: '1', 
     foodName: '',
-    foodImageUrl: '',
-    isSoldOut: false,
+    foodImage: null,
+    isSoldOut: '',
     expirationDate: '',
     quantity: 0,
     unit: '',
@@ -38,12 +47,26 @@ const FoodRegistration: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    console.log(formData.userId)
-    console.log(formData.expirationDate)
+    const data = new FormData();
+
+    data.append("userId", "1");
+    data.append("foodName", formData.foodName);
+    if (formData.foodImage) {
+      data.append("foodImage", formData.foodImage);
+    }
+    data.append("isSoldOut", "");
+    data.append("expirationDate", formData.expirationDate);
+    data.append("quantity", formData.quantity.toString());
+    data.append("unit", formData.unit);
+    if (formData.description){
+      data.append("description", formData.description);
+    }
+    
     // Send POST request to /foods API
-    axios.post('http://localhost:3000/foods', {
-      ...formData,
-      quantity: parseFloat(formData.quantity.toString()), // Convert quantity to float
+    axios.post('http://localhost:3000/foods', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
     .then(response => {
       console.log('Food item registered:', response.data);
@@ -63,7 +86,7 @@ const FoodRegistration: React.FC = () => {
       reader.onloadend = () => {
         setFormData({
           ...formData,
-          foodImageUrl: reader.result as string,
+          foodImage: file,
         });
       };
       reader.readAsDataURL(file);
@@ -80,8 +103,8 @@ const FoodRegistration: React.FC = () => {
             <input required type="text" id="foodName" name="foodName" onChange={handleChange} style={{textAlign:"center",width: '100%',border: "1px solid #ccc",background: "white",}}/>
           </div>
           <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="foodImageUrl" style={{ display: 'block', marginBottom: '5px' }}>Food Image</label>
-            <input type="file" id="foodImageUrl" name="foodImageUrl" onChange={handleImageUpload} />
+            <label htmlFor="foodImage" style={{ display: 'block', marginBottom: '5px' }}>Food Image</label>
+            <input type="file" id="foodImage" name="foodImage" onChange={handleImageUpload} />
           </div>
           <div style={{ marginBottom: "15px" }}>
             <label
