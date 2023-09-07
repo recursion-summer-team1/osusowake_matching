@@ -45,16 +45,6 @@ const FooterBar: React.FC = () => {
         </div>
       </Link>
       <Link
-        to="/chat"
-        className={`${activeDict["chat"]} flex-1 text-center`}
-      >
-        {/* Your icon for Chat */}
-        <div className="flex flex-col items-center">
-          <span className="i-fluent-chat-24-regular text-3xl" />
-          <span className="text-xs">Chat</span>
-        </div>
-      </Link>
-      <Link
         to="/deal-list"
         className={`${activeDict["deal-list"]} flex-1 text-center`}
       >
