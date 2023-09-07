@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
-import { useParams } from 'react-router-dom';
 
 interface ChatItem {
   chatId: number;
