@@ -116,7 +116,7 @@ const DealPage = () => {
               }}
             >
               <h2 className="card-title text-sm">{food.foodName}</h2>
-              <p className="text-sm">Requester: {food.userName}</p>
+              <p className="text-sm">Requester: <br></br>{food.userName}</p>
             </div>
             <div
               className="card-actions flex-grow"
@@ -127,9 +127,14 @@ const DealPage = () => {
                 alignItems: "center",
               }}
             >
-              <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                Chat
-              </Link>
+              <button
+                type="submit"
+                className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
+              >
+                <Link to={`/chat/${food.dealId}`} className="">
+                  Chat
+                </Link>
+              </button>
             </div>
           </div>
         ))}
