@@ -101,7 +101,11 @@ const DealPage = () => {
               style={{ flex: "1", objectFit: "cover" }}
             >
               <img
-                src={food.foodImageUrl}
+                src={
+                  food.foodImageUrl.startsWith("http")
+                  ? food.foodImageUrl
+                  : `http://localhost:3000/images/foods/${food.foodImageUrl}`
+                }
                 alt={food.foodName}
                 style={{ width: "100%", height: "100px", objectFit: "cover" }}
               />
@@ -146,7 +150,11 @@ const DealPage = () => {
               style={{ flex: "1", objectFit: "cover" }}
             >
               <img
-                src={food.foodImageUrl}
+                src={
+                  food.foodImageUrl.startsWith("http")
+                  ? food.foodImageUrl
+                  : `http://localhost:3000/images/foods/${food.foodImageUrl}`
+                }
                 alt={food.foodName}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
