@@ -13,8 +13,7 @@ interface Food {
   foodImageUrl: string;
   isSoldOut: boolean;
   expirationDate: Date;
-  quantity: number;
-  unit: string;
+  quantity: string;
   description: string;
   createdAt: Date;
   updatedAt: Date;

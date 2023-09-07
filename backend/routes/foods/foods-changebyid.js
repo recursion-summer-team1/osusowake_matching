@@ -28,7 +28,6 @@ const changeFoodById = (req, res) => {
     !req.body.userId ||
     !req.body.foodName ||
     !req.body.quantity ||
-    !req.body.unit ||
     !req.body.expirationDate
   ) {
     return res.status(400).send({
@@ -38,13 +37,12 @@ const changeFoodById = (req, res) => {
   }
 
   const userId = parseInt(req.body.userId);
-  const quantity = parseFloat(req.body.quantity);
   const isSoldOut = req.body.isSoldOut === "true";
 
-  if (isNaN(userId) || isNaN(quantity)) {
+  if (isNaN(userId)) {
     return res.status(400).send({
       message: "Bad Request",
-      error: "userId or quantity is not a number",
+      error: "userId or is not a number",
     });
   }
 
@@ -55,7 +53,6 @@ const changeFoodById = (req, res) => {
     "isSoldOut=?",
     "expirationDate=?",
     "quantity=?",
-    "unit=?",
     "description=?",
   ];
   const updateValues = [
@@ -63,8 +60,7 @@ const changeFoodById = (req, res) => {
     req.body.foodName,
     isSoldOut,
     req.body.expirationDate,
-    quantity,
-    req.body.unit,
+    req.body.quantity,
     req.body.description,
   ];
 
