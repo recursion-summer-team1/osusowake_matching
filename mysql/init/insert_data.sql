@@ -5,7 +5,7 @@ VALUES
 ('ユーザー3', 'user3@example.com', 'password3');
 
 
-INSERT INTO `Food` (userId, foodName, foodImageUrl, expirationDate, quantity, unit, description, isSoldOut)
+INSERT INTO `Food` (userId, foodName, foodImageUrl, expirationDate, quantity, unit, description)
 VALUES
 (1, 'Apple', "https://t3.ftcdn.net/jpg/01/44/72/68/360_F_144726846_a6aI8wZXCKV7lOz0bsg3Enax7PGy1KSR.jpg", '2023-09-30', 5.0, 'pieces', 'Fresh and delicious apple'),
 (1, 'Banana', "https://t3.ftcdn.net/jpg/01/44/72/68/360_F_144726846_a6aI8wZXCKV7lOz0bsg3Enax7PGy1KSR.jpg", '2023-09-28', 3.0, 'pieces', 'Ripe and sweet banana'),
