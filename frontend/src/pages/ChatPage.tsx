@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { myUserState } from "../utils/myUserState";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
 
@@ -23,7 +25,8 @@ const ChatPage: React.FC = () => {
   const [chats, setChats] = useState<ChatItem[]>([]);
   const [message, setMessage] = useState<string>("");
 
-  const senderId = 1; //ログイン機能実装時に変更
+  const myUser = useRecoilValue(myUserState);
+  const senderId =Number(myUser?.userId); //ログイン機能実装時に変更
 
   const handleTransactionCompletion = async () => {
     try {
