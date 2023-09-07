@@ -28,7 +28,7 @@ const FoodDetails: React.FC = () => {
   const [initialMessage, setInitialMessage] = useState("");
   const navigate = useNavigate();
 
-  const myUser = useRecoilValue(myUserState)
+  const myUser = useRecoilValue(myUserState);
 
   useEffect(() => {
     if (id) {

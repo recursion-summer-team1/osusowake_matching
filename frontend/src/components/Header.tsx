@@ -29,7 +29,9 @@ const Header: React.FC<HeaderProps> = ({ title, className }) => {
             Back
           </button>
         )}
-        <h1 className="text-center text-business font-semibold text-xl tracking-wider">{title}</h1>
+        <h1 className="text-center text-business font-semibold text-xl tracking-wider">
+          {title}
+        </h1>
       </div>
     </header>
   );

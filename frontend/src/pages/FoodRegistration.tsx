@@ -161,10 +161,7 @@ const FoodRegistration: React.FC = () => {
             />
           </div>
           <div className="form-control w-full max-w-xs">
-            <label
-              className="label"
-              htmlFor="description"
-            >
+            <label className="label" htmlFor="description">
               <span className="label-text">Description</span>
             </label>
             <textarea

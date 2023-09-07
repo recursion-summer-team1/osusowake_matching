@@ -58,14 +58,17 @@ const DealPage = () => {
       } catch (error) {
         console.error("Error fetching the user data:", error);
       }
-    try {
-      if (userId) { // Check if userId is not null or undefined
-        const response = await axios.get(`http://localhost:3000/users/${userId}`);
-        return response.data.userName;
+      try {
+        if (userId) {
+          // Check if userId is not null or undefined
+          const response = await axios.get(
+            `http://localhost:3000/users/${userId}`,
+          );
+          return response.data.userName;
+        }
+      } catch (error) {
+        console.error("Error fetching the user data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching the user data:", error);
-    }
     };
 
     const fetchDealsAndFoods = async (
