@@ -13,7 +13,6 @@ interface ChatItem {
 }
 
 const ChatPage: React.FC = () => {
-
   const { dealId } = useParams<{ dealId: string }>();
   const [chats, setChats] = useState<ChatItem[]>([]);
   const [message, setMessage] = useState<string>("");
@@ -21,11 +20,14 @@ const ChatPage: React.FC = () => {
   const senderId = 1; //ログイン機能実装時に変更
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/chats/${dealId}`).then((response) => {
-      setChats(response.data);
-    }).catch((error) => {
-      console.error("There was an error fetching the chat data:", error);
-    });
+    axios
+      .get(`http://localhost:3000/chats/${dealId}`)
+      .then((response) => {
+        setChats(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the chat data:", error);
+      });
   }, [dealId]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +37,7 @@ const ChatPage: React.FC = () => {
 
     try {
       await axios.post("http://localhost:3000/chats", {
-        dealId: parseInt(dealId? dealId : "0"),
+        dealId: parseInt(dealId ? dealId : "0"),
         senderId: senderId,
         content: message,
       });
@@ -43,10 +45,10 @@ const ChatPage: React.FC = () => {
       setMessage("");
       const response = await axios.get(`http://localhost:3000/chats/${dealId}`);
       setChats(response.data);
-      } catch (error) {
+    } catch (error) {
       console.error("There was an error posting the chat data:", error);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -61,7 +63,7 @@ const ChatPage: React.FC = () => {
       </button>
       <div className="flex-grow overflow-y-auto">
         {/* Chat messages */}
-        {chats.map((chat, i) => (
+        {chats.map((chat, i) =>
           chat.senderId !== senderId ? (
             //Sender (self) chat
             <div className="chat chat-start px-1" key={i}>
@@ -71,7 +73,9 @@ const ChatPage: React.FC = () => {
                 </div>
               </div>
               <div className="chat-header">
-                <time className="text-xa opacity-50">{new Date(chat.createdAt).toLocaleString()}</time>
+                <time className="text-xa opacity-50">
+                  {new Date(chat.createdAt).toLocaleString()}
+                </time>
               </div>
               <div className="chat-bubble chat-bubble-primary">
                 {chat.content}
@@ -86,28 +90,30 @@ const ChatPage: React.FC = () => {
                 </div>
               </div>
               <div className="chat-header">
-                <time className="text-xs opacity-50">{new Date(chat.createdAt).toLocaleString()}</time>
+                <time className="text-xs opacity-50">
+                  {new Date(chat.createdAt).toLocaleString()}
+                </time>
               </div>
               <div className="chat-bubble chat-bubble-secondary">
                 {chat.content}
               </div>
             </div>
-          )
-        ))}
+          ),
+        )}
       </div>
       {/* Input form */}
-      <form className="sticky flex bottom-14 mx-1 w-[full-2] mb-1 mt-2 justify-center" onSubmit={handleSubmit}>
+      <form
+        className="sticky flex bottom-14 mx-1 w-[full-2] mb-1 mt-2 justify-center"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           placeholder="Type your message..."
           className="input input-bordered input-md input-primary w-full mx-1 shadow"
           value={message}
-          onChange={e => setMessage(e.target.value)}
+          onChange={(e) => setMessage(e.target.value)}
         />
-        <button
-          type="submit"
-          className="btn bg-success text-base-100 shadow"
-        >
+        <button type="submit" className="btn bg-success text-base-100 shadow">
           <span className="i-formkit-submit" />
         </button>
       </form>
