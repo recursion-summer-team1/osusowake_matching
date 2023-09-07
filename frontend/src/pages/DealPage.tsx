@@ -21,6 +21,7 @@ interface Food {
   ownerName?: string;
   userName: string;
   dealId: number;
+  receiverId?: number;
 }
 interface DealData {
   dealId: number;
@@ -31,7 +32,6 @@ interface DealData {
 const DealPage = () => {
   const [myFoodsToShare, setMyFoodsToShare] = useState<Food[]>([]);
   const [foodsToShareByOthers, setFoodsToShareByOthers] = useState<Food[]>([]);
-  // const userId = 1; // Assuming userId is 1
   const navigate = useNavigate();
 
   const handleChatClick = (
@@ -39,24 +39,14 @@ const DealPage = () => {
     isOwner: boolean,
     userName: string,
     foodName: string,
+    receiverId?: number,
   ) => {
-    navigate(`/chat/${dealId}`, { state: { isOwner, userName, foodName } });
+    navigate(`/chat/${dealId}`, { state: { isOwner, userName, foodName, receiverId } });
   };
   const myUser = useRecoilValue(myUserState); // RecoilのmyUserStateを使用
 
   useEffect(() => {
     const fetchUserName = async (userId: number) => {
-      try {
-        if (userId) {
-          // Check if userId is not null or undefined
-          const response = await axios.get(
-            `http://localhost:3000/users/${userId}`,
-          );
-          return response.data.userName;
-        }
-      } catch (error) {
-        console.error("Error fetching the user data:", error);
-      }
       try {
         if (userId) {
           // Check if userId is not null or undefined
@@ -96,8 +86,10 @@ const DealPage = () => {
         for (const [index, food] of foods.entries()) {
           if (isOwner) {
             food.userName = await fetchUserName(dealData[index].requesterId);
+            food.receiverId = dealData[index].requesterId;
           } else {
             food.userName = await fetchUserName(food.userId);
+            food.receiverId = food.userId;
           }
         }
         setFoodsState(foods);
@@ -175,6 +167,7 @@ const DealPage = () => {
                     true,
                     food.userName,
                     food.foodName,
+                    food.receiverId
                   )
                 }
                 className="btn btn-success"
@@ -237,6 +230,7 @@ const DealPage = () => {
                     false,
                     food.userName,
                     food.foodName,
+                    food.receiverId
                   )
                 }
                 className="btn btn-success"

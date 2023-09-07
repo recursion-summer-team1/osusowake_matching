@@ -12,6 +12,8 @@ interface ChatItem {
   senderId: number;
   content: string;
   createdAt: string;
+  senderAvatarUrl?: string;
+  receiverAvatarUrl?: string;
 }
 
 const ChatPage: React.FC = () => {
@@ -21,13 +23,17 @@ const ChatPage: React.FC = () => {
     isOwner?: boolean;
     userName?: string;
     foodName?: string;
+    receiverId?: number;
   };
   const isOwner = state?.isOwner;
   const userName = state?.userName;
   const foodName = state?.foodName;
+  const receiverId = state?.receiverId;
   const { dealId } = useParams<{ dealId: string }>();
   const [chats, setChats] = useState<ChatItem[]>([]);
   const [message, setMessage] = useState<string>("");
+  const [senderAvatarUrl, setSenderAvatarUrl] = useState<string>("");
+  const [receiverAvatarUrl, setReceiverAvatarUrl] = useState<string>("");
 
   const myUser = useRecoilValue(myUserState);
   const senderId = Number(myUser?.userId); //ログイン機能実装時に変更
@@ -42,6 +48,24 @@ const ChatPage: React.FC = () => {
   };
 
   useEffect(() => {
+    const fetchAvatarUrl = async (userId: number) => {
+      try {
+          const response = await axios.get(
+            `http://localhost:3000/users/${userId}`,
+          );
+          return response.data.avatarUrl;
+      } catch (error) {
+        console.error("Error fetching the user data:", error);
+      }
+    };
+
+    if (senderId) {
+      fetchAvatarUrl(senderId).then((avatarUrl) => setSenderAvatarUrl(avatarUrl));
+    }
+    if (receiverId){
+      fetchAvatarUrl(receiverId).then((avatarUrl) => setReceiverAvatarUrl(avatarUrl));
+    }
+
     axios
       .get(`http://localhost:3000/chats/${dealId}`)
       .then((response) => {
@@ -50,7 +74,7 @@ const ChatPage: React.FC = () => {
       .catch((error) => {
         console.error("There was an error fetching the chat data:", error);
       });
-  }, [dealId]);
+  }, [senderId, receiverId, dealId]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -87,18 +111,22 @@ const ChatPage: React.FC = () => {
       )}
       <div className="flex-grow overflow-y-auto">
         {/* Chat messages */}
-        {chats.map((chat, i) =>
-          chat.senderId !== senderId ? (
-            //Sender (self) chat
+        {chats.map((chat, i) => {
+          const originalDate = new Date(chat.createdAt);
+          const localDate = new Date(originalDate.getTime() - (9 * 60 * 60 * 1000));
+          const formattedDate = localDate.toLocaleString('ja-JP');
+
+          return chat.senderId !== senderId ? (
+            //receiver chat
             <div className="chat chat-start px-1" key={i}>
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full">
-                  <img src="https://images.unsplash.com/photo-1635324944940-0c0a9c8f9bf1?w=200" />
+                  <img src={ receiverAvatarUrl.startsWith("http") ? receiverAvatarUrl : `http://localhost:3000/images/avatars/${receiverAvatarUrl}` } />
                 </div>
               </div>
               <div className="chat-header">
                 <time className="text-xa opacity-50">
-                  {new Date(chat.createdAt).toLocaleString()}
+                  {formattedDate}
                 </time>
               </div>
               <div className="chat-bubble chat-bubble-primary">
@@ -106,24 +134,24 @@ const ChatPage: React.FC = () => {
               </div>
             </div>
           ) : (
-            // Receiver (other) chat
+            // sender chat
             <div className="chat chat-end px-1" key={i}>
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full">
-                  <img src="https://images.unsplash.com/photo-1635324944940-0c0a9c8f9bf1?w=200" />
+                  <img src={ senderAvatarUrl.startsWith("http") ? senderAvatarUrl : `http://localhost:3000/images/avatars/${senderAvatarUrl}` } />
                 </div>
               </div>
               <div className="chat-header">
                 <time className="text-xs opacity-50">
-                  {new Date(chat.createdAt).toLocaleString()}
+                  {formattedDate}
                 </time>
               </div>
               <div className="chat-bubble chat-bubble-secondary prose">
                 {chat.content}
               </div>
             </div>
-          ),
-        )}
+          );
+          })}
       </div>
       {/* Input form */}
       <form
