@@ -20,6 +20,7 @@ interface FoodItem {
 
 const FoodDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  console.log(id)
   const [foodItem, setFoodItem] = useState<FoodItem | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showPurchasePopup, setShowPurchasePopup] = useState(false);
@@ -29,7 +30,7 @@ const FoodDetails: React.FC = () => {
   useEffect(() => {
     if (id) {
       axios
-        .get<FoodItem>(`http://localhost:3000/foods/${id}`)
+        .get<FoodItem>(`http://localhost:3000/foods/soro/${id}`)
         .then((response) => {
           setFoodItem(response.data);
         })
@@ -119,7 +120,7 @@ const FoodDetails: React.FC = () => {
           </div>
 
           <button
-            className="bg-blue-500 text-white p-2 rounded mt-4"
+            className="btn btn-success shadow w-[full-2] sticky top-12  p-2 rounded mt-4 ml-4"
             onClick={handleButtonClick}
           >
             I want it!
@@ -142,13 +143,13 @@ const FoodDetails: React.FC = () => {
             />
             <div className="flex justify-between mt-4">
               <button
-                className="bg-red-500 text-white p-2 rounded"
+                className="btn btn-error shadow w-[full-2] p-2 rounded"
                 onClick={() => setShowModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-green-500 text-white p-2 rounded"
+                className="btn btn-success shadow w-[full-2] p-2 rounded"
                 onClick={handleSubmit}
               >
                 Submit
@@ -165,7 +166,7 @@ const FoodDetails: React.FC = () => {
             <h2>Purchase Completed</h2>
             <p>You have successfully purchased {foodItem.foodName}.</p>
             <button
-              className="bg-blue-500 text-white p-2 rounded mt-4"
+              className="btn btn-accent shadow w-[full-2] p-2 rounded"
               onClick={closePurchasePopup}
             >
               Close
