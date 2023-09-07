@@ -4,22 +4,86 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('docker:server');
-var http = require('http');
+const app = require('../app');
+const debug = require('debug')('docker:server');
+const http = require('http');
+const socketIo = require('socket.io');
+const pool = require("../mysqlConnection");
+
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
+
+const io = socketIo(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+    },
+});
+
+io.on('connection', (socket) => {
+    console.log('User connected');
+
+    socket.on('send-message', (message) => {
+        // メッセージの内容を確認
+        if (
+            message.dealId === null ||
+            message.senderId === null ||
+            message.content === null
+        ) {
+            // ここではエラーをクライアントに返す方法として、
+            // エラーメッセージをemitすることを選びます。
+            socket.emit('message-error', {
+                message: "Bad Request",
+                error: "dealId, senderId, cannot be null",
+            });
+            return;
+        }
+
+        pool.query(
+            "INSERT INTO Chat (dealId, senderId, content) VALUES (?,?,?)",
+            [message.dealId, message.senderId, message.content],
+            (err, results) => {
+                if (err) {
+                    console.error("chats.js: sql execute error:", err);
+                    socket.emit('message-error', {
+                        message: "Internal Server Error",
+                        error: err.message
+                    });
+                    return;
+                }
+                console.log("chats.js: sql execute success");
+                        // ここで、挿入したメッセージの詳細を取得
+                console.log("Executing the second query with chatId:", results.insertId);
+                pool.query("SELECT * FROM Chat WHERE chatId = ?", [results.insertId], (err, rows) => {
+                  if (err || rows.length === 0) {
+                      console.error("chats.js: sql fetch error:", err);
+                      return;
+                  }
+                  const fullMessage = rows[0];
+
+                  // すべてのクライアントに完全なメッセージをブロードキャスト
+                  io.emit('new-message', fullMessage);
+              });
+          },
+        );
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
+
 
 /**
  * Listen on provided port, on all network interfaces.

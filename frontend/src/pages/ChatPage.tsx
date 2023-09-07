@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import io from "socket.io-client";
 import { useRecoilValue } from "recoil";
 import { myUserState } from "../utils/myUserState";
 import FooterBar from "../components/FooterBar";
@@ -38,6 +39,10 @@ const ChatPage: React.FC = () => {
   const myUser = useRecoilValue(myUserState);
   const senderId = Number(myUser?.userId); //ログイン機能実装時に変更
 
+  const socket = useMemo(() => io("http://localhost:3000", {
+    transports: ["websocket"],
+  }), []);
+
   const handleTransactionCompletion = async () => {
     try {
       await axios.put(`http://localhost:3000/deals/${dealId}`);
@@ -74,6 +79,19 @@ const ChatPage: React.FC = () => {
       .catch((error) => {
         console.error("There was an error fetching the chat data:", error);
       });
+
+      socket.on('new-message', (newMessage: ChatItem) => {
+        console.log("newMessage:", newMessage);
+        setChats((prevChats) => [...prevChats, newMessage]);
+      });
+
+      socket.on('message-error', (errorData) => {
+        console.error('Error from server:', errorData);
+      });
+      return () => {
+        socket.off('new-message');
+        socket.off('message-error');
+      }
   }, [senderId, receiverId, dealId]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,19 +99,12 @@ const ChatPage: React.FC = () => {
 
     if (!message) return;
 
-    try {
-      await axios.post("http://localhost:3000/chats", {
-        dealId: parseInt(dealId ? dealId : "0"),
-        senderId: senderId,
-        content: message,
-      });
-
-      setMessage("");
-      const response = await axios.get(`http://localhost:3000/chats/${dealId}`);
-      setChats(response.data);
-    } catch (error) {
-      console.error("There was an error posting the chat data:", error);
-    }
+    socket.emit('send-message', {
+      dealId: Number(dealId),
+      senderId: senderId,
+      content: message,
+    });
+    setMessage("");
   };
 
   return (

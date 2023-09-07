@@ -13,8 +13,14 @@ var friendshipsRouter = require("./routes/friendships/friendships");
 
 const app = express();
 
+const corsOptions = {
+  origin: "*", // 実際のフロントエンドのURLに変更してください
+  methods: ["GET", "POST"],
+  credentials: true
+};
+
 app.use(logger("dev"));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
