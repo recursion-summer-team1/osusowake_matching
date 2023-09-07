@@ -13,16 +13,16 @@ const postFriendship = (req, res) => {
     });
   }
   pool.query(
-    "INSERT INTO Deal (requesterId, foodId, isComplete) VALUES (?,?,?)",
-    [req.body.requesterId, req.body.foodId, req.body.isComplete],
+    "INSERT INTO FriendShip (followeeId, followerId) VALUES (?,?)",
+    [req.body.followeeId, req.body.followerId],
     (err, results) => {
       if (err) {
-        console.error("deals-post.js: sql execute error:", err);
+        console.error("friendships-post.js: sql execute error:", err);
         return res
           .status(500)
           .send({ message: "Internal Server Error", error: err.message });
       }
-      console.log("deals-post.js: sql execute success");
+      console.log("friendships-post.js: sql execute success");
       res.send(results);
     },
   );
