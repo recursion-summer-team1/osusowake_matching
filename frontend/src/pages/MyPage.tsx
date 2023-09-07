@@ -100,7 +100,7 @@ const MyPage = () => {
                 className="input input-bordered input-sm text-center w-full"
               />
             </div>
-            <button className="btn btn-info " type="submit">
+            <button className="btn btn-info btn-success" type="submit">
               Sign in
             </button>
           </form>

@@ -49,7 +49,6 @@ const DealPage = () => {
       try {
         if (userId) {
           // Check if userId is not null or undefined
-          console.log(userId); // Should print the actual userId
           const response = await axios.get(
             `http://localhost:3000/users/${userId}`,
           );
@@ -178,7 +177,7 @@ const DealPage = () => {
                     food.foodName,
                   )
                 }
-                className="btn btn-primary"
+                className="btn btn-success"
               >
                 Chat
               </button>
@@ -240,7 +239,7 @@ const DealPage = () => {
                     food.foodName,
                   )
                 }
-                className="btn btn-primary"
+                className="btn btn-success"
               >
                 Chat
               </button>
