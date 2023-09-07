@@ -17,7 +17,11 @@ interface ChatItem {
 const ChatPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const state = location.state as { isOwner?: boolean, userName?: string, foodName?: string };
+  const state = location.state as {
+    isOwner?: boolean;
+    userName?: string;
+    foodName?: string;
+  };
   const isOwner = state?.isOwner;
   const userName = state?.userName;
   const foodName = state?.foodName;
@@ -26,7 +30,7 @@ const ChatPage: React.FC = () => {
   const [message, setMessage] = useState<string>("");
 
   const myUser = useRecoilValue(myUserState);
-  const senderId =Number(myUser?.userId); //ログイン機能実装時に変更
+  const senderId = Number(myUser?.userId); //ログイン機能実装時に変更
 
   const handleTransactionCompletion = async () => {
     try {
@@ -72,17 +76,15 @@ const ChatPage: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       {/* Top */}
       <Header title={`${userName} | ${foodName}`} className="z-50" />
-      {
-        isOwner && (
-          <button
-            type="button"
-            className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
-            onClick={handleTransactionCompletion}
-           >
-           Transaction Completion
-          </button>
-        )
-      }
+      {isOwner && (
+        <button
+          type="button"
+          className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
+          onClick={handleTransactionCompletion}
+        >
+          Transaction Completion
+        </button>
+      )}
       <div className="flex-grow overflow-y-auto">
         {/* Chat messages */}
         {chats.map((chat, i) =>
