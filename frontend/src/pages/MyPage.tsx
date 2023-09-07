@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import { useRecoilState } from "recoil";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { myUserState } from "../utils/myUserState";
+import { getLoggedInInfo, myUserState } from "../utils/myUserState";
 
 const MyPage = () => {
   const [myUser, setMyUser] = useRecoilState(myUserState);
@@ -46,23 +46,9 @@ const MyPage = () => {
   };
 
   useEffect(() => {
-    const storedMyUser = localStorage.getItem("me");
+    const storedMyUser = getLoggedInInfo();
     if (storedMyUser) {
-      const storedMyUserObject = JSON.parse(storedMyUser);
-      if (
-        typeof storedMyUserObject === "object" &&
-        "userId" in storedMyUserObject &&
-        "userName" in storedMyUserObject &&
-        "email" in storedMyUserObject
-      ) {
-        setMyUser({
-          userId: storedMyUserObject.userId,
-          userName: storedMyUserObject.userName,
-          email: storedMyUserObject.email,
-        });
-      } else {
-        localStorage.removeItem("me");
-      }
+      setMyUser(storedMyUser);
     }
   }, [setMyUser]);
 
