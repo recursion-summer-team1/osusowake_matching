@@ -100,55 +100,52 @@ const FoodRegistration: React.FC = () => {
       <div className="p-4 flex-grow items-center justify-center overflow-y-auto">
         <form
           onSubmit={handleSubmit}
-          style={{ maxWidth: "100%", textAlign: "center" }}
         >
-          <div style={{ marginBottom: "15px" }}>
+          <div className="form-control w-full max-w-xs">
             <label
+              className="label"
               htmlFor="foodName"
-              style={{ display: "block", marginBottom: "5px" }}
             >
-              Food Name
+              <span className="label-text">Food Name</span>
             </label>
             <input
               required
               type="text"
               id="foodName"
               name="foodName"
+              className="input input-bordered input-sm w-full max-w-xs"
               onChange={handleChange}
-              style={{
-                textAlign: "center",
-                width: "100%",
-                border: "1px solid #ccc",
-                background: "white",
-              }}
             />
           </div>
-          <div style={{ marginBottom: "15px" }}>
+          <div className="form-control w-full max-w-xs">
             <label
+              className="label"
               htmlFor="foodImage"
-              style={{ display: "block", marginBottom: "5px" }}
             >
-              Food Image
+              <span className="label-text">Food Image</span>
             </label>
             <input
+              required
+              className="file-input file-input-bordered w-full max-w-xs"
               type="file"
               id="foodImage"
               name="foodImage"
               onChange={handleImageUpload}
             />
           </div>
-          <div style={{ marginBottom: "15px" }}>
+          <div className="form-control w-full max-w-xs">
             <label
+              className="label"
               htmlFor="expirationDate"
-              style={{ display: "block", marginBottom: "5px" }}
             >
-              Expiration Date
+              <span className="label-text">Expiration Date</span>
             </label>
             <input
               required
               type="date"
               id="expirationDate"
               name="expirationDate"
+              className="input input-bordered input-sm w-full max-w-xs"
               onChange={handleChange}
               style={{
                 textAlign: "center",
@@ -158,18 +155,19 @@ const FoodRegistration: React.FC = () => {
               }}
             />
           </div>
-          <div style={{ marginBottom: "15px" }}>
+          <div className="form-control w-full max-w-xs">
             <label
+              className="label"
               htmlFor="quantity"
-              style={{ display: "block", marginBottom: "5px" }}
             >
-              Quantity
+              <span className="label-text">Quantity</span>
             </label>
             <input
               required
               type="number"
               id="quantity"
               name="quantity"
+              className="input input-bordered input-sm w-full max-w-xs"
               onChange={handleChange}
               style={{
                 textAlign: "center",
@@ -179,18 +177,19 @@ const FoodRegistration: React.FC = () => {
               }}
             />
           </div>
-          <div style={{ marginBottom: "15px" }}>
+          <div className="form-control w-full max-w-xs">
             <label
+              className="label"
               htmlFor="unit"
-              style={{ display: "block", marginBottom: "5px" }}
             >
-              Unit
+              <span className="label-text">Unit</span>
             </label>
             <input
               required
               type="text"
               id="unit"
               name="unit"
+              className="input input-bordered input-sm w-full max-w-xs"
               onChange={handleChange}
               style={{
                 textAlign: "center",
@@ -200,16 +199,17 @@ const FoodRegistration: React.FC = () => {
               }}
             />
           </div>
-          <div style={{ marginBottom: "15px" }}>
+          <div className="form-control w-full max-w-xs">
             <label
+              className="label"
               htmlFor="description"
-              style={{ display: "block", marginBottom: "5px" }}
             >
-              Description
+              <span className="label-text">Description</span>
             </label>
             <textarea
               id="description"
               name="description"
+              className="input input-bordered input-md w-full max-w-xs"
               onChange={handleChange}
               style={{
                 textAlign: "center",
@@ -219,9 +219,11 @@ const FoodRegistration: React.FC = () => {
               }}
             ></textarea>
           </div>
-          <button className="bg-blue-500 text-white p-2 rounded" type="submit">
-            Register Food
-          </button>
+          <div className="flex items-center justify-center">
+            <button className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50">
+              Register Food
+            </button>
+          </div>
         </form>
       </div>
       <FooterBar />
@@ -233,16 +235,16 @@ const FoodRegistration: React.FC = () => {
             <h2>Register "{formData.foodName}"</h2>
             <p>Are you sure you want to register this food item?</p>
             <button
-              className="bg-green-500 text-white p-2 rounded mt-4"
-              onClick={handleConfirm}
-            >
-              Confirm
-            </button>
-            <button
-              className="bg-red-500 text-white p-2 rounded mt-4 ml-4"
+              className="btn btn-error shadow w-[full-2] sticky top-12  p-2 rounded mt-4 ml-4"
               onClick={() => setShowPopup(false)}
             >
               Cancel
+            </button>
+            <button
+              className="btn btn-success shadow w-[full-2] sticky top-12  p-2 rounded mt-4 ml-4"
+              onClick={handleConfirm}
+            >
+              Confirm
             </button>
           </div>
         </div>
