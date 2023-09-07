@@ -17,6 +17,7 @@ interface FoodItem {
   description: string;
   createdAt: string;
   updatedAt: string;
+  userName: string;
 }
 
 const FoodDetails: React.FC = () => {
@@ -27,7 +28,7 @@ const FoodDetails: React.FC = () => {
   const [initialMessage, setInitialMessage] = useState("");
   const navigate = useNavigate();
 
-  const myUser = useRecoilValue(myUserState)
+  const myUser = useRecoilValue(myUserState);
 
   useEffect(() => {
     if (id) {
@@ -108,7 +109,7 @@ const FoodDetails: React.FC = () => {
             className="w-full h-full object-cover"
           />
           <h1 className="text-2xl font-bold">{foodItem.foodName}</h1>
-          <p className="text-lg">Owner: {foodItem.userId}</p>
+          <p className="text-lg">Owner: {foodItem.userName}</p>
           <p className="text-lg">
             Expiration Date: {formatDate(foodItem.expirationDate)}
           </p>

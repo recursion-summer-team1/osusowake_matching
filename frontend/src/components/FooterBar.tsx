@@ -15,7 +15,10 @@ const FooterBar: React.FC = () => {
       [Key in (typeof pathNames)[number]]: string;
     };
     pathNames.forEach((s) => {
-      obj[s] = location.pathname === `/${s}` ? "active text-info" : "text-base-content text-opacity-40";
+      obj[s] =
+        location.pathname === `/${s}`
+          ? "active text-info"
+          : "text-base-content text-opacity-40";
     });
     return obj;
   }, [location]);
@@ -55,10 +58,7 @@ const FooterBar: React.FC = () => {
           <span className="text-xs">Deals</span>
         </div>
       </Link>
-      <Link
-        to="/me"
-        className={`${activeDict["me"]} flex-1 text-center`}
-      >
+      <Link to="/me" className={`${activeDict["me"]} flex-1 text-center`}>
         {/* Your icon for My Page */}
         <div className="flex flex-col items-center">
           <span className="i-fluent-person-24-regular text-3xl" />
