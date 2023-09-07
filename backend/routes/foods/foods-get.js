@@ -3,12 +3,14 @@ const pool = require("../../mysqlConnection");
 const getFood = (req, res) => {
   const sql = `
   SELECT
+    Food.foodId,
     Food.foodName,
     Food.foodImageUrl,
     User.UserId,
     User.userName
   FROM Food
   JOIN User ON Food.userId = User.userId
+  WHERE Food.isSoldOut = false
   `;
 
   pool.query(sql, (err, results) => {
