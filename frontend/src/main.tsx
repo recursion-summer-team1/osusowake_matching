@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import FoodList from "./pages/FoodList";
+import FoodList from "./pages/FoodList.tsx";
 import FoodDetails from "./pages/FoodDetails";
 import ChatPage from "./pages/ChatPage.tsx";
 import FoodRegistration from "./pages/FoodRegistration.tsx";

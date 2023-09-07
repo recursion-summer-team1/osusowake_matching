@@ -31,7 +31,7 @@ const postFood = (req, res) => {
     !req.body.expirationDate
   ) {
     return res.status(400).send({
-      message: "Bad Request",
+      message: "Bad Request!",
       error: "request parameters cannot be null",
     });
   }
@@ -39,7 +39,8 @@ const postFood = (req, res) => {
   const quantity = parseFloat(req.body.quantity);
   const isSoldOut = req.body.isSoldOut === "true";
 
-  const foodImageUrl = req.file ? req.file.path : null;
+  const fileName = path.basename(req.file.path);
+  const foodImageUrl = req.file ? fileName : null;
 
   if (isNaN(userId) || isNaN(quantity)) {
     return res.status(400).send({

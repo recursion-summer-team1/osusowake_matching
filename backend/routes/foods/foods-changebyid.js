@@ -71,7 +71,7 @@ const changeFoodById = (req, res) => {
   // 画像がアップロードされている場合のみ、更新カラムと値を追加
   if (req.file) {
     updateColumns.push("foodImageUrl=?");
-    updateValues.push(req.file.path);
+    updateValues.push(path.basename(req.file.path));
   }
 
   updateValues.push(foodId);
