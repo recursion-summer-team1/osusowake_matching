@@ -3,16 +3,10 @@ import { useCallback, useEffect, useRef } from "react";
 
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
-import { atom, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-
-type MyUser = { userId: string; userName: string; email: string };
-
-const myUserState = atom<MyUser | undefined>({
-  key: "myUserState",
-  default: undefined,
-});
+import { myUserState } from "../utils/myUserState";
 
 const MyPage = () => {
   const [myUser, setMyUser] = useRecoilState(myUserState);
