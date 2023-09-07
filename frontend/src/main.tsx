@@ -30,7 +30,7 @@ const router = createBrowserRouter([
     element: <FoodDetails />,
   },
   {
-    path: "/chat",
+    path: "/chat/:dealId",
     element: <ChatPage />,
   },
   {
