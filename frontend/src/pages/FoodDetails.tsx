@@ -18,6 +18,14 @@ interface FoodItem {
   createdAt: string;
   updatedAt: string;
 }
+interface Deal {
+  dealId: number;
+  requesterId: number;
+  foodId: number;
+  isComplete: number;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const FoodDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,7 +36,21 @@ const FoodDetails: React.FC = () => {
   const navigate = useNavigate();
 
   const myUser = useRecoilValue(myUserState)
+  const [userDeals, setUserDeals] = useState<Deal[]>([]);
+  const [showAlreadyTradedPopup, setShowAlreadyTradedPopup] = useState(false);
+  const userId = myUser?.userId;
 
+  useEffect(() => {
+    if (userId) {
+      axios.get(`http://localhost:3000/deals/requester/${userId}`)
+        .then(response => {
+          setUserDeals(response.data);
+        })
+        .catch(error => {
+          console.error("Error fetching user deals:", error);
+        });
+    }
+  }, [userId]);
   useEffect(() => {
     if (id) {
       axios
@@ -47,10 +69,13 @@ const FoodDetails: React.FC = () => {
   }
 
   const handleButtonClick = () => {
-    setShowModal(true);
+    const alreadyTraded = userDeals.some(deal => deal.foodId === foodItem.foodId);
+    if (alreadyTraded) {
+      setShowAlreadyTradedPopup(true);
+    } else {
+      setShowModal(true);
+    }
   };
-
-  const userId = myUser?.userId;
 
   const createDealAndChat = async () => {
     console.log("foodId:", foodItem.foodId);
@@ -119,12 +144,16 @@ const FoodDetails: React.FC = () => {
             <p className="text-lg">{foodItem.description}</p>
           </div>
 
+          {userDeals.some(deal => deal.foodId === foodItem.foodId) ? (
+          <div className="badge badge-lg mt-2 badge-accent">deal in progres</div>
+        ) : (
           <button
             className="btn btn-success shadow w-[full-2] sticky top-12  p-2 rounded mt-4 ml-4"
             onClick={handleButtonClick}
           >
             I want it!
           </button>
+        )}
         </div>
       </div>
 
@@ -174,6 +203,22 @@ const FoodDetails: React.FC = () => {
           </div>
         </div>
       )}
+
+      {showAlreadyTradedPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100">
+          <div className="bg-white p-4 rounded">
+            <h2>Trade Not Possible</h2>
+            <p>This food item has already been traded and cannot be traded again.</p>
+            <button
+              className="btn btn-accent shadow w-[full-2] p-2 rounded"
+              onClick={() => setShowAlreadyTradedPopup(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
