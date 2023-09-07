@@ -29,7 +29,7 @@ const ChatPage = () => {
             <div className="chat-header">
               <time className="text-xs opacity-50">September 8th, 17:10</time>
             </div>
-            <div className="chat-bubble chat-bubble-primary">
+            <div className="chat-bubble chat-bubble-primary prose">
               It was said that you would, destroy the Sith, not join them.
             </div>
           </div>
@@ -44,7 +44,7 @@ const ChatPage = () => {
             <div className="chat-header">
               <time className="text-xs opacity-50">September 8th, 18:45</time>
             </div>
-            <div className="chat-bubble chat-bubble-secondary">
+            <div className="chat-bubble chat-bubble-secondary prose">
               It was said that you would, destroy the Sith, not join them.
             </div>
           </div>
@@ -64,7 +64,7 @@ const ChatPage = () => {
           className="btn bg-success text-base-100 shadow"
           // onClick={handleSubmit}
         >
-          <span className="i-formkit-submit" />
+          <span className="i-fluent-send-32-filled" />
         </button>
       </form>
       {/* Footer */}
