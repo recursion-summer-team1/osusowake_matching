@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { myUserState } from "../utils/myUserState";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
 
@@ -13,11 +15,27 @@ interface ChatItem {
 }
 
 const ChatPage: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const state = location.state as { isOwner?: boolean, userName?: string, foodName?: string };
+  const isOwner = state?.isOwner;
+  const userName = state?.userName;
+  const foodName = state?.foodName;
   const { dealId } = useParams<{ dealId: string }>();
   const [chats, setChats] = useState<ChatItem[]>([]);
   const [message, setMessage] = useState<string>("");
 
-  const senderId = 1; //ログイン機能実装時に変更
+  const myUser = useRecoilValue(myUserState);
+  const senderId =Number(myUser?.userId); //ログイン機能実装時に変更
+
+  const handleTransactionCompletion = async () => {
+    try {
+      await axios.put(`http://localhost:3000/deals/${dealId}`);
+      navigate("/deal-list");
+    } catch (error) {
+      console.error("There was an error updating the deal data:", error);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -53,14 +71,18 @@ const ChatPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Top */}
-      <Header title="User name | Item Name" className="z-50" />
-      <button
-        type="submit"
-        className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
-        // onClick={handleSubmit}
-      >
-        Transaction Completion
-      </button>
+      <Header title={`${userName} | ${foodName}`} className="z-50" />
+      {
+        isOwner && (
+          <button
+            type="button"
+            className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
+            onClick={handleTransactionCompletion}
+           >
+           Transaction Completion
+          </button>
+        )
+      }
       <div className="flex-grow overflow-y-auto">
         {/* Chat messages */}
         {chats.map((chat, i) =>

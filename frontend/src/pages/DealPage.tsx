@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myUserState } from "../utils/myUserState";
 
@@ -32,7 +32,13 @@ interface DealData {
 const DealPage = () => {
   const [myFoodsToShare, setMyFoodsToShare] = useState<Food[]>([]);
   const [foodsToShareByOthers, setFoodsToShareByOthers] = useState<Food[]>([]);
-   const myUser = useRecoilValue(myUserState); // RecoilのmyUserStateを使用
+  // const userId = 1; // Assuming userId is 1
+  const navigate = useNavigate();
+
+  const handleChatClick = (dealId: number, isOwner: boolean, userName: string, foodName: string) => {
+    navigate(`/chat/${dealId}`, { state: { isOwner, userName, foodName } });
+  }
+  const myUser = useRecoilValue(myUserState); // RecoilのmyUserStateを使用
 
   useEffect(() => {
     const fetchUserName = async (userId: number) => {
@@ -108,11 +114,17 @@ const DealPage = () => {
               className="flex-grow"
               style={{ flex: "1", objectFit: "cover" }}
             >
-              <img
-                src={food.foodImageUrl}
+              {food && food.foodImageUrl && (
+                <img
+                src={
+                  food.foodImageUrl.startsWith("http")
+                  ? food.foodImageUrl
+                  : `http://localhost:3000/images/foods/${food.foodImageUrl}`
+                }
                 alt={food.foodName}
                 style={{ width: "100%", height: "100px", objectFit: "cover" }}
               />
+              )}
             </figure>
             <div
               className="card-body flex-grow"
@@ -135,9 +147,7 @@ const DealPage = () => {
                 alignItems: "center",
               }}
             >
-              <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
-              </Link>
+              <button onClick={() => handleChatClick(food.dealId, true, food.userName, food.foodName)} className="btn btn-primary">Chat</button>
             </div>
           </div>
         ))}
@@ -154,7 +164,11 @@ const DealPage = () => {
               style={{ flex: "1", objectFit: "cover" }}
             >
               <img
-                src={food.foodImageUrl}
+                src={
+                  food.foodImageUrl.startsWith("http")
+                  ? food.foodImageUrl
+                  : `http://localhost:3000/images/foods/${food.foodImageUrl}`
+                }
                 alt={food.foodName}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
@@ -183,9 +197,7 @@ const DealPage = () => {
                 alignItems: "center",
               }}
             >
-              <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
-              </Link>
+              <button onClick={() => handleChatClick(food.dealId, false, food.userName, food.foodName)} className="btn btn-primary">Chat</button>
             </div>
           </div>
         ))}
