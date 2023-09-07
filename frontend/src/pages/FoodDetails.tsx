@@ -46,7 +46,7 @@ const FoodDetails: React.FC = () => {
     setShowModal(true);
   };
 
-  const userId=1
+  const userId=3
 
   const createDealAndChat = async () => {
     console.log("foodId:",foodItem.foodId)
