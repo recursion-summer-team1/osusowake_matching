@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Food {
   foodId: number;
@@ -31,6 +31,11 @@ const DealPage = () => {
   const [myFoodsToShare, setMyFoodsToShare] = useState<Food[]>([]);
   const [foodsToShareByOthers, setFoodsToShareByOthers] = useState<Food[]>([]);
   // const userId = 1; // Assuming userId is 1
+  const navigate = useNavigate();
+
+  const handleChatClick = (dealId: number, isOwner: boolean, userName: string, foodName: string) => {
+    navigate(`/chat/${dealId}`, { state: { isOwner, userName, foodName } });
+  }
 
   useEffect(() => {
     const fetchUserName = async (userId: number) => {
@@ -131,9 +136,7 @@ const DealPage = () => {
                 alignItems: "center",
               }}
             >
-              <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                Chat
-              </Link>
+              <button onClick={() => handleChatClick(food.dealId, true, food.userName, food.foodName)} className="btn btn-primary">Chat</button>
             </div>
           </div>
         ))}
@@ -183,9 +186,7 @@ const DealPage = () => {
                 alignItems: "center",
               }}
             >
-              <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                Chat
-              </Link>
+              <button onClick={() => handleChatClick(food.dealId, false, food.userName, food.foodName)} className="btn btn-primary">Chat</button>
             </div>
           </div>
         ))}
