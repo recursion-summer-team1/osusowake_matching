@@ -7,8 +7,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, className }) => {
   return (
-    <header className={`sticky inset-x-0 top-0 bg-primary py-2 ${className}`}>
-      <h1 className="text-center">{title}</h1>
+    <header className={`sticky inset-x-0 top-0 py-5 shadow-md ${className}`}>
+      <div className="container mx-auto flex justify-center items-center">
+        <h1 className="text-center text-business font-semibold text-xl tracking-wider">{title}</h1>
+      </div>
     </header>
   );
 };

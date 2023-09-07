@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
 import FooterBar from "../components/FooterBar";
+import { useRecoilValue } from "recoil";
+import { myUserState } from "../utils/myUserState";
 
 interface FoodItem {
   foodId: number;
@@ -20,12 +22,13 @@ interface FoodItem {
 
 const FoodDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  console.log(id)
   const [foodItem, setFoodItem] = useState<FoodItem | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showPurchasePopup, setShowPurchasePopup] = useState(false);
   const [initialMessage, setInitialMessage] = useState("");
   const navigate = useNavigate();
+
+  const myUser = useRecoilValue(myUserState)
 
   useEffect(() => {
     if (id) {
@@ -48,7 +51,7 @@ const FoodDetails: React.FC = () => {
     setShowModal(true);
   };
 
-  const userId = 1;
+  const userId = myUser?.userId;
 
   const createDealAndChat = async () => {
     console.log("foodId:", foodItem.foodId);
@@ -61,8 +64,6 @@ const FoodDetails: React.FC = () => {
     });
 
     const dealId = dealResponse.data.insertId;
-    console.log("dealId", dealId);
-    console.log("Initial message:", initialMessage);
 
     // Create a new chat message
     await axios.post("http://localhost:3000/chats", {
