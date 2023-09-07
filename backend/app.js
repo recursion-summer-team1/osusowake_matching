@@ -9,6 +9,7 @@ var usersRouter = require("./routes/users/users");
 var foodsRouter = require("./routes/foods/foods");
 var chatsRouter = require("./routes/chats/chats");
 var dealsRouter = require("./routes/deals/deals");
+var friendshipsRouter = require("./routes/friendships/friendships");
 
 const app = express();
 
@@ -17,13 +18,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use("/images", express.static("/var/backend/.data/images"));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/foods", foodsRouter);
 app.use("/chats", chatsRouter);
-app.use("/images", express.static("/var/backend/.data/images"));
 app.use("/deals", dealsRouter);
+app.use("/friendships", friendshipsRouter);
+
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

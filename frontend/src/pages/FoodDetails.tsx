@@ -28,11 +28,12 @@ const FoodDetails: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      axios.get<FoodItem>(`http://localhost:3000/foods/${id}`)
-        .then(response => {
+      axios
+        .get<FoodItem>(`http://localhost:3000/foods/${id}`)
+        .then((response) => {
           setFoodItem(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("There was an error fetching the food item:", error);
         });
     }
@@ -46,11 +47,11 @@ const FoodDetails: React.FC = () => {
     setShowModal(true);
   };
 
-  const userId=3
+  const userId = 1;
 
   const createDealAndChat = async () => {
-    console.log("foodId:",foodItem.foodId)
-    console.log("userId",userId)
+    console.log("foodId:", foodItem.foodId);
+    console.log("userId", userId);
     // Create a new deal
     const dealResponse = await axios.post("http://localhost:3000/deals", {
       requesterId: userId,
@@ -59,7 +60,7 @@ const FoodDetails: React.FC = () => {
     });
 
     const dealId = dealResponse.data.insertId;
-    console.log("dealId",dealId)
+    console.log("dealId", dealId);
     console.log("Initial message:", initialMessage);
 
     // Create a new chat message
@@ -82,19 +83,34 @@ const FoodDetails: React.FC = () => {
     navigate("/food-list");
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}/${month}/${day}`;
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header title="Food Details" className="z-50" />
       <div className="flex-grow overflow-y-auto p-4 flex items-center justify-center">
         <div className="text-center">
           <img
-            src={foodItem.foodImageUrl}
+            src={
+              foodItem.foodImageUrl.startsWith("http")
+                ? foodItem.foodImageUrl
+                : `http://localhost:3000/images/foods/${foodItem.foodImageUrl}`
+            }
             alt={foodItem.foodName}
-            className="w-full h-auto mb-4"
+            className="w-full h-full object-cover"
           />
           <h1 className="text-2xl font-bold">{foodItem.foodName}</h1>
           <p className="text-lg">Owner: {foodItem.userId}</p>
-          <p className="text-lg">Expiration Date: {foodItem.expirationDate}</p>
+          <p className="text-lg">
+            Expiration Date: {formatDate(foodItem.expirationDate)}
+          </p>
           <p className="text-lg">Quantity: {foodItem.quantity}</p>
 
           <div className="mt-6">
