@@ -12,9 +12,20 @@ const getFoodById = (req, res) => {
     });
   }
 
+  const query = `
+    SELECT 
+      Food.*,
+      User.userName
+    FROM
+      Food
+    JOIN
+      User ON Food.userId = User.userId
+    WHERE
+      Food.foodId = ?`;
+
   // SQLクエリの実行
   pool.query(
-    "SELECT * FROM Food WHERE foodId = ?",
+    query,
     [foodId],
     (err, results) => {
       if (err) {
