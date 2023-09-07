@@ -75,11 +75,11 @@ const DealPage = () => {
     };
 
     fetchDealsAndFoods(
-      `http://localhost:3000/deals/requester/2`,
+      `http://localhost:3000/deals/requester/1`,
       setFoodsToShareByOthers,
     );
     fetchDealsAndFoods(
-      `http://localhost:3000/deals/owner/2`,
+      `http://localhost:3000/deals/owner/1`,
       setMyFoodsToShare,
       true,
     );
@@ -88,7 +88,7 @@ const DealPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header title="List of Deals" className="z-50" />
-      <div className="flex-grow overflow-y-auto p-4 flex flex-col justify-center items-center">
+      <div className="flex-grow overflow-y-auto p-4 flex-col justify-center items-center">
         <h2 className="text-lg text-left">My foods to share</h2>
         {myFoodsToShare.map((food, i) => (
           <div
@@ -128,7 +128,7 @@ const DealPage = () => {
               }}
             >
               <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                Chat
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
               </Link>
             </div>
           </div>

@@ -7,7 +7,7 @@ const getDealbyOwner = (req, res) => {
   }
 
   pool.query(
-    "SELECT Deal.* FROM Deal INNER JOIN Food ON Deal.foodId = Food.foodId WHERE Food.userId = ?;",
+    "SELECT Deal.* FROM Deal INNER JOIN Food ON Deal.foodId = Food.foodId WHERE Food.userId = ? AND isComplete = FALSE;",
     [userId],
     (err, results) => {
       if (err) {

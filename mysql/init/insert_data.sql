@@ -1,8 +1,8 @@
 INSERT INTO `User` (`userName`, `email`, `password`) 
 VALUES
-('ユーザー1', 'user1@example.com', 'password1'),
-('ユーザー2', 'user2@example.com', 'password2'),
-('ユーザー3', 'user3@example.com', 'password3');
+('ユーザー1', 'user1@example.com', '$2a$10$0PbKY.zIWpNzKVQE2LHUp.00h8fMDY5uE1nHfbSF50lRmGcDVB6eq'),
+('ユーザー2', 'user2@example.com', '$2a$10$K.OWb./ZeWCEhfBozI6cSOv0/TuUCEUW6Lh06uXMS.dqd59pKH4iO'),
+('ユーザー3', 'user3@example.com', '$2a$10$OBWPafO7crSMFkBpiQKk7O2sertGqPtCSW8YdoiZVF3jgPfjvUFfq');
 
 
 INSERT INTO `Food` (userId, foodName, foodImageUrl, expirationDate, quantity, unit, description)

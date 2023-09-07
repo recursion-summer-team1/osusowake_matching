@@ -6,7 +6,7 @@ const getFriendship = require("./friendships-get");
 const deleteFriendship = require("./friendships-delete");
 
 router.post("/", postFriendship);
-router.get("/:userId", getFriendship);
-router.delete("/", deleteFriendship);
+router.get("/", getFriendship);
+router.get("/", deleteFriendship);
 
 module.exports = router;

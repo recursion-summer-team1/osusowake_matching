@@ -27,7 +27,6 @@ app.use("/chats", chatsRouter);
 app.use("/deals", dealsRouter);
 app.use("/friendships", friendshipsRouter);
 
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

@@ -2,11 +2,7 @@ const pool = require("../../mysqlConnection");
 
 const postDeal = (req, res) => {
   // 必須のフィールドがnullであるかどうかをチェック
-  if (
-    req.body.requesterId === null ||
-    req.body.foodId === null ||
-    req.body.isComplete === null
-  ) {
+  if (req.body.requesterId === null || req.body.foodId === null) {
     return res.status(400).send({
       message: "Bad Request",
       error: "requesterId or foodId or isComplete cannot be null",
