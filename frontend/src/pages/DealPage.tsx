@@ -3,6 +3,8 @@ import axios from "axios";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { myUserState } from "../utils/myUserState";
 
 interface Food {
   foodId: number;
@@ -30,12 +32,19 @@ interface DealData {
 const DealPage = () => {
   const [myFoodsToShare, setMyFoodsToShare] = useState<Food[]>([]);
   const [foodsToShareByOthers, setFoodsToShareByOthers] = useState<Food[]>([]);
-  // const userId = 1; // Assuming userId is 1
+   const myUser = useRecoilValue(myUserState); // RecoilのmyUserStateを使用
 
   useEffect(() => {
     const fetchUserName = async (userId: number) => {
-      const response = await axios.get(`http://localhost:3000/users/${userId}`);
-      return response.data.userName;
+    try {
+      if (userId) { // Check if userId is not null or undefined
+        console.log(userId); // Should print the actual userId
+        const response = await axios.get(`http://localhost:3000/users/${userId}`);
+        return response.data.userName;
+      }
+    } catch (error) {
+      console.error("Error fetching the user data:", error);
+    }
     };
 
     const fetchDealsAndFoods = async (
@@ -54,17 +63,20 @@ const DealPage = () => {
         );
         const foodResponses = await Promise.all(
           dealData.map((deal: DealData) =>
-            axios.get(`http://localhost:3000/foods/${deal.foodId}`),
+            axios.get(`http://localhost:3000/foods/soro/${deal.foodId}`),
           ),
         );
         const foods = foodResponses.map((res, index) => ({
           ...res.data,
           dealId: dealData[index].dealId,
         }));
+        console.log(foods)
         for (const [index, food] of foods.entries()) {
           if (isOwner) {
+            console.log(dealData[index].requesterId)
             food.userName = await fetchUserName(dealData[index].requesterId);
           } else {
+            console.log(food.userId)
             food.userName = await fetchUserName(food.userId);
           }
         }
@@ -75,15 +87,15 @@ const DealPage = () => {
     };
 
     fetchDealsAndFoods(
-      `http://localhost:3000/deals/requester/1`,
+      `http://localhost:3000/deals/requester/${myUser?.userId}`,
       setFoodsToShareByOthers,
     );
     fetchDealsAndFoods(
-      `http://localhost:3000/deals/owner/1`,
+      `http://localhost:3000/deals/owner/${myUser?.userId}`,
       setMyFoodsToShare,
       true,
     );
-  }, []);
+  }, [myUser?.userId]);
 
   return (
     <div className="flex flex-col min-h-screen">
