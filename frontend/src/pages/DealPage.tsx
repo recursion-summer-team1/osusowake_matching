@@ -125,7 +125,7 @@ const DealPage = () => {
               }}
             >
               <h2 className="card-title text-sm">{food.foodName}</h2>
-              <p className="text-sm">Requester: {food.userName}</p>
+              <p className="text-sm">Requester: <br></br>{food.userName}</p>
             </div>
             <div
               className="card-actions flex-grow"

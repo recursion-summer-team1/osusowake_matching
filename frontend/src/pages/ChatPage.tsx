@@ -113,7 +113,7 @@ const ChatPage: React.FC = () => {
                   {new Date(chat.createdAt).toLocaleString()}
                 </time>
               </div>
-              <div className="chat-bubble chat-bubble-secondary">
+              <div className="chat-bubble chat-bubble-secondary prose">
                 {chat.content}
               </div>
             </div>
@@ -132,8 +132,12 @@ const ChatPage: React.FC = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button type="submit" className="btn bg-success text-base-100 shadow">
-          <span className="i-formkit-submit" />
+        <button
+          type="submit"
+          className="btn bg-success text-base-100 shadow"
+          // onClick={handleSubmit}
+        >
+          <span className="i-fluent-send-32-filled" />
         </button>
       </form>
       {/* Footer */}

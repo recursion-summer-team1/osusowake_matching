@@ -7,7 +7,7 @@ const getDealbyRequester = (req, res) => {
   }
 
   pool.query(
-    "SELECT * from Deal WHERE requesterId = ?;",
+    "SELECT * from Deal WHERE requesterId = ? AND isComplete = FALSE;",
     [requesterId],
     (err, results) => {
       if (err) {

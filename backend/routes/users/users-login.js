@@ -32,6 +32,7 @@ const loginUser = (req, res) => {
 
       res.json({
         userId: user.userId,
+        userName: user.userName,
         token: "rakutenToken",
       });
     });
