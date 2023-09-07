@@ -58,14 +58,14 @@ const DealPage = () => {
   };
 
   
-    fetchDealsAndFoods(`http://localhost:3000/deals/requester/2`, setFoodsToShareByOthers);
-    fetchDealsAndFoods(`http://localhost:3000/deals/owner/2`, setMyFoodsToShare, true);
+    fetchDealsAndFoods(`http://localhost:3000/deals/requester/1`, setFoodsToShareByOthers);
+    fetchDealsAndFoods(`http://localhost:3000/deals/owner/1`, setMyFoodsToShare, true);
   }, []);
   
   return (
     <div className="flex flex-col min-h-screen">
       <Header title="List of Deals" className="z-50" />
-      <div className="flex-grow overflow-y-auto p-4 flex flex-col justify-center items-center">
+      <div className="flex-grow overflow-y-auto p-4 flex-col justify-center items-center">
         <h2 className="text-lg text-left">My foods to share</h2>
         {myFoodsToShare.map((food, i) => (
           <div className="card card-side flex-grow h-48 w-full bg-base-200 shadow-sm my-1" key={i} style={{ display: 'flex', flexDirection: 'row', height: '100px' }}>
