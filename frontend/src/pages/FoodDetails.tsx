@@ -20,7 +20,7 @@ interface FoodItem {
 
 const FoodDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  console.log(id)
+  console.log(id);
   const [foodItem, setFoodItem] = useState<FoodItem | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showPurchasePopup, setShowPurchasePopup] = useState(false);

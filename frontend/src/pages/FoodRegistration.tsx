@@ -98,14 +98,9 @@ const FoodRegistration: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <Header title="Food Registration" />
       <div className="p-4 flex-grow items-center justify-center overflow-y-auto">
-        <form
-          onSubmit={handleSubmit}
-        >
+        <form onSubmit={handleSubmit}>
           <div className="form-control w-full max-w-xs">
-            <label
-              className="label"
-              htmlFor="foodName"
-            >
+            <label className="label" htmlFor="foodName">
               <span className="label-text">Food Name</span>
             </label>
             <input
@@ -118,10 +113,7 @@ const FoodRegistration: React.FC = () => {
             />
           </div>
           <div className="form-control w-full max-w-xs">
-            <label
-              className="label"
-              htmlFor="foodImage"
-            >
+            <label className="label" htmlFor="foodImage">
               <span className="label-text">Food Image</span>
             </label>
             <input
@@ -134,10 +126,7 @@ const FoodRegistration: React.FC = () => {
             />
           </div>
           <div className="form-control w-full max-w-xs">
-            <label
-              className="label"
-              htmlFor="expirationDate"
-            >
+            <label className="label" htmlFor="expirationDate">
               <span className="label-text">Expiration Date</span>
             </label>
             <input
@@ -156,10 +145,7 @@ const FoodRegistration: React.FC = () => {
             />
           </div>
           <div className="form-control w-full max-w-xs">
-            <label
-              className="label"
-              htmlFor="quantity"
-            >
+            <label className="label" htmlFor="quantity">
               <span className="label-text">Quantity</span>
             </label>
             <input
@@ -178,10 +164,7 @@ const FoodRegistration: React.FC = () => {
             />
           </div>
           <div className="form-control w-full max-w-xs">
-            <label
-              className="label"
-              htmlFor="unit"
-            >
+            <label className="label" htmlFor="unit">
               <span className="label-text">Unit</span>
             </label>
             <input
@@ -200,10 +183,7 @@ const FoodRegistration: React.FC = () => {
             />
           </div>
           <div className="form-control w-full max-w-xs">
-            <label
-              className="label"
-              htmlFor="description"
-            >
+            <label className="label" htmlFor="description">
               <span className="label-text">Description</span>
             </label>
             <textarea

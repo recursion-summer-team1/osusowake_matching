@@ -22,7 +22,9 @@ const FoodList: React.FC = () => {
     const fetchData = async () => {
       try {
         // userIdを使用してAPIを呼び出す
-        const response = await axios.get(`http://localhost:3000/foods/${myUser?.userId}`);
+        const response = await axios.get(
+          `http://localhost:3000/foods/${myUser?.userId}`,
+        );
         setFoodData(response.data);
       } catch (error) {
         console.error("Error fetching the food data:", error);

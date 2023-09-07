@@ -35,22 +35,30 @@ const DealPage = () => {
   // const userId = 1; // Assuming userId is 1
   const navigate = useNavigate();
 
-  const handleChatClick = (dealId: number, isOwner: boolean, userName: string, foodName: string) => {
+  const handleChatClick = (
+    dealId: number,
+    isOwner: boolean,
+    userName: string,
+    foodName: string,
+  ) => {
     navigate(`/chat/${dealId}`, { state: { isOwner, userName, foodName } });
-  }
+  };
   const myUser = useRecoilValue(myUserState); // RecoilのmyUserStateを使用
 
   useEffect(() => {
     const fetchUserName = async (userId: number) => {
-    try {
-      if (userId) { // Check if userId is not null or undefined
-        console.log(userId); // Should print the actual userId
-        const response = await axios.get(`http://localhost:3000/users/${userId}`);
-        return response.data.userName;
+      try {
+        if (userId) {
+          // Check if userId is not null or undefined
+          console.log(userId); // Should print the actual userId
+          const response = await axios.get(
+            `http://localhost:3000/users/${userId}`,
+          );
+          return response.data.userName;
+        }
+      } catch (error) {
+        console.error("Error fetching the user data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching the user data:", error);
-    }
     };
 
     const fetchDealsAndFoods = async (
@@ -76,13 +84,13 @@ const DealPage = () => {
           ...res.data,
           dealId: dealData[index].dealId,
         }));
-        console.log(foods)
+        console.log(foods);
         for (const [index, food] of foods.entries()) {
           if (isOwner) {
-            console.log(dealData[index].requesterId)
+            console.log(dealData[index].requesterId);
             food.userName = await fetchUserName(dealData[index].requesterId);
           } else {
-            console.log(food.userId)
+            console.log(food.userId);
             food.userName = await fetchUserName(food.userId);
           }
         }
@@ -120,14 +128,14 @@ const DealPage = () => {
             >
               {food && food.foodImageUrl && (
                 <img
-                src={
-                  food.foodImageUrl.startsWith("http")
-                  ? food.foodImageUrl
-                  : `http://localhost:3000/images/foods/${food.foodImageUrl}`
-                }
-                alt={food.foodName}
-                style={{ width: "100%", height: "100px", objectFit: "cover" }}
-              />
+                  src={
+                    food.foodImageUrl.startsWith("http")
+                      ? food.foodImageUrl
+                      : `http://localhost:3000/images/foods/${food.foodImageUrl}`
+                  }
+                  alt={food.foodName}
+                  style={{ width: "100%", height: "100px", objectFit: "cover" }}
+                />
               )}
             </figure>
             <div
@@ -140,7 +148,10 @@ const DealPage = () => {
               }}
             >
               <h2 className="card-title text-sm">{food.foodName}</h2>
-              <p className="text-sm">Requester: <br></br>{food.userName}</p>
+              <p className="text-sm">
+                Requester: <br></br>
+                {food.userName}
+              </p>
             </div>
             <div
               className="card-actions flex-grow"
@@ -151,7 +162,19 @@ const DealPage = () => {
                 alignItems: "center",
               }}
             >
-              <button onClick={() => handleChatClick(food.dealId, true, food.userName, food.foodName)} className="btn btn-primary">Chat</button>
+              <button
+                onClick={() =>
+                  handleChatClick(
+                    food.dealId,
+                    true,
+                    food.userName,
+                    food.foodName,
+                  )
+                }
+                className="btn btn-primary"
+              >
+                Chat
+              </button>
             </div>
           </div>
         ))}
@@ -170,8 +193,8 @@ const DealPage = () => {
               <img
                 src={
                   food.foodImageUrl.startsWith("http")
-                  ? food.foodImageUrl
-                  : `http://localhost:3000/images/foods/${food.foodImageUrl}`
+                    ? food.foodImageUrl
+                    : `http://localhost:3000/images/foods/${food.foodImageUrl}`
                 }
                 alt={food.foodName}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -201,7 +224,19 @@ const DealPage = () => {
                 alignItems: "center",
               }}
             >
-              <button onClick={() => handleChatClick(food.dealId, false, food.userName, food.foodName)} className="btn btn-primary">Chat</button>
+              <button
+                onClick={() =>
+                  handleChatClick(
+                    food.dealId,
+                    false,
+                    food.userName,
+                    food.foodName,
+                  )
+                }
+                className="btn btn-primary"
+              >
+                Chat
+              </button>
             </div>
           </div>
         ))}
