@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
+import { useParams } from 'react-router-dom';
 
 interface ChatItem {
   chatId: number;
@@ -47,7 +48,7 @@ const ChatPage: React.FC = () => {
       console.error("There was an error posting the chat data:", error);
     }
   }
-
+  
   return (
     <div className="flex flex-col min-h-screen">
       {/* Top */}
