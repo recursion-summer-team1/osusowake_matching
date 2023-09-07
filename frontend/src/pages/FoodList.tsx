@@ -4,13 +4,13 @@ import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 
-type FoodItem = {
+interface FoodItem {
   foodId: number;
   userId: number;
   userName: string;
   foodName: string;
   foodImageUrl: string;
-};
+}
 
 const FoodList: React.FC = () => {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
@@ -42,9 +42,7 @@ const FoodList: React.FC = () => {
                   src={
                     item.foodImageUrl.startsWith("http")
                       ? item.foodImageUrl
-                      : `http://localhost:3000/images/foods/${item.foodImageUrl
-                          .split("/")
-                          .pop()}`
+                      : `http://localhost:3000/images/foods/${item.foodImageUrl}`
                   }
                   alt={item.userName}
                   className="w-full h-full object-cover"
