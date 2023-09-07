@@ -3,6 +3,8 @@ import axios from "axios";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { myUserState } from "../utils/myUserState";
 
 interface FoodItem {
   foodId: number;
@@ -14,18 +16,20 @@ interface FoodItem {
 
 const FoodList: React.FC = () => {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
+  const myUser = useRecoilValue(myUserState); // RecoilのmyUserStateを使用
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/foods");
+        // userIdを使用してAPIを呼び出す
+        const response = await axios.get(`http://localhost:3000/foods/${myUser?.userId}`);
         setFoodData(response.data);
       } catch (error) {
         console.error("Error fetching the food data:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [myUser?.userId]);
 
   return (
     <div className="flex flex-col min-h-screen">

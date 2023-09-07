@@ -10,7 +10,7 @@ const { changeFoodById } = require("./foods-changebyid");
 /* POST users listing. */
 router.post("/", postFood);
 router.get("/:userId", getFood);
-router.get("/:foodId", getFoodById);
+router.get("/soro/:foodId", getFoodById);
 router.delete("/:foodId", deleteFoodById);
 router.put("/:foodId", changeFoodById);
 
