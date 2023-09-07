@@ -2,8 +2,11 @@
 
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
+import { useParams } from 'react-router-dom';
 
 const ChatPage = () => {
+  const { dealId } = useParams<{ dealId: string }>();
+  console.log(dealId)
   return (
     <div className="flex flex-col min-h-screen">
       {/* Top */}
