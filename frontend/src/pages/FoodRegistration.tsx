@@ -13,8 +13,7 @@ const FoodRegistration: React.FC = () => {
     foodImage: File | null;
     isSoldOut: string;
     expirationDate: string;
-    quantity: number;
-    unit: string;
+    quantity: string;
     description: string;
   }>({
     userId: "1",
@@ -22,8 +21,7 @@ const FoodRegistration: React.FC = () => {
     foodImage: null,
     isSoldOut: "",
     expirationDate: "",
-    quantity: 0,
-    unit: "",
+    quantity: "",
     description: "",
   });
 
@@ -56,8 +54,7 @@ const FoodRegistration: React.FC = () => {
     }
     data.append("isSoldOut", "");
     data.append("expirationDate", formData.expirationDate);
-    data.append("quantity", formData.quantity.toString());
-    data.append("unit", formData.unit);
+    data.append("quantity", formData.quantity);
     if (formData.description) {
       data.append("description", formData.description);
     }
@@ -150,7 +147,7 @@ const FoodRegistration: React.FC = () => {
             </label>
             <input
               required
-              type="number"
+              type="text"
               id="quantity"
               name="quantity"
               className="input input-bordered input-sm w-full max-w-xs"
@@ -164,26 +161,10 @@ const FoodRegistration: React.FC = () => {
             />
           </div>
           <div className="form-control w-full max-w-xs">
-            <label className="label" htmlFor="unit">
-              <span className="label-text">Unit</span>
-            </label>
-            <input
-              required
-              type="text"
-              id="unit"
-              name="unit"
-              className="input input-bordered input-sm w-full max-w-xs"
-              onChange={handleChange}
-              style={{
-                textAlign: "center",
-                width: "100%",
-                border: "1px solid #ccc",
-                background: "white",
-              }}
-            />
-          </div>
-          <div className="form-control w-full max-w-xs">
-            <label className="label" htmlFor="description">
+            <label
+              className="label"
+              htmlFor="description"
+            >
               <span className="label-text">Description</span>
             </label>
             <textarea

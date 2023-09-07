@@ -13,8 +13,7 @@ interface Food {
   foodImageUrl: string;
   isSoldOut: boolean;
   expirationDate: Date;
-  quantity: number;
-  unit: string;
+  quantity: string;
   description: string;
   createdAt: Date;
   updatedAt: Date;
@@ -59,6 +58,14 @@ const DealPage = () => {
       } catch (error) {
         console.error("Error fetching the user data:", error);
       }
+    try {
+      if (userId) { // Check if userId is not null or undefined
+        const response = await axios.get(`http://localhost:3000/users/${userId}`);
+        return response.data.userName;
+      }
+    } catch (error) {
+      console.error("Error fetching the user data:", error);
+    }
     };
 
     const fetchDealsAndFoods = async (
@@ -84,13 +91,10 @@ const DealPage = () => {
           ...res.data,
           dealId: dealData[index].dealId,
         }));
-        console.log(foods);
         for (const [index, food] of foods.entries()) {
           if (isOwner) {
-            console.log(dealData[index].requesterId);
             food.userName = await fetchUserName(dealData[index].requesterId);
           } else {
-            console.log(food.userId);
             food.userName = await fetchUserName(food.userId);
           }
         }

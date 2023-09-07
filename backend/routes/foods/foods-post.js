@@ -27,7 +27,6 @@ const postFood = (req, res) => {
     !req.body.userId ||
     !req.body.foodName ||
     !req.body.quantity ||
-    !req.body.unit ||
     !req.body.expirationDate
   ) {
     return res.status(400).send({
@@ -36,29 +35,27 @@ const postFood = (req, res) => {
     });
   }
   const userId = parseInt(req.body.userId);
-  const quantity = parseFloat(req.body.quantity);
   const isSoldOut = req.body.isSoldOut === "true";
 
   const fileName = path.basename(req.file.path);
   const foodImageUrl = req.file ? fileName : null;
 
-  if (isNaN(userId) || isNaN(quantity)) {
+  if (isNaN(userId)) {
     return res.status(400).send({
       message: "Bad Request",
-      error: "userId or quantity is not a number",
+      error: "userId is not a number",
     });
   }
 
   pool.query(
-    "INSERT INTO Food (userId, foodName, foodImageUrl, isSoldOut, expirationDate, quantity, unit, description) VALUES (?,?,?,?,?,?,?,?)",
+    "INSERT INTO Food (userId, foodName, foodImageUrl, isSoldOut, expirationDate, quantity, description) VALUES (?,?,?,?,?,?,?)",
     [
       userId,
       req.body.foodName,
       foodImageUrl,
       isSoldOut,
       req.body.expirationDate,
-      quantity,
-      req.body.unit,
+      req.body.quantity,
       req.body.description,
     ],
     (err, results) => {
@@ -76,8 +73,7 @@ const postFood = (req, res) => {
         foodImageUrl: foodImageUrl,
         isSoldOut: isSoldOut,
         expirationDate: req.body.expirationDate,
-        quantity: quantity,
-        unit: req.body.unit,
+        quantity: req.body.expirationDate,
         description: req.body.description,
       });
     },
