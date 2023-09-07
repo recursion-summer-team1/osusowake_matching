@@ -105,7 +105,8 @@ const DealPage = () => {
               className="flex-grow"
               style={{ flex: "1", objectFit: "cover" }}
             >
-              <img
+              {food && food.foodImageUrl && (
+                <img
                 src={
                   food.foodImageUrl.startsWith("http")
                   ? food.foodImageUrl
@@ -114,6 +115,7 @@ const DealPage = () => {
                 alt={food.foodName}
                 style={{ width: "100%", height: "100px", objectFit: "cover" }}
               />
+              )}
             </figure>
             <div
               className="card-body flex-grow"
