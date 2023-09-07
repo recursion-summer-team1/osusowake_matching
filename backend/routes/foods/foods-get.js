@@ -24,7 +24,7 @@ const getFood = (req, res) => {
     const friendUserIds = friendListResults.map((friend) => friend.userId);
 
     if (friendUserIds.length === 0) {
-      return res.status(400).json({ error: "No friends found" });
+      return res.status(200).json([]);
     }
 
     // 友達のuserIdと一致するFoodデータを取得

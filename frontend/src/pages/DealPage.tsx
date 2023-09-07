@@ -131,9 +131,9 @@ const DealPage = () => {
                 type="submit"
                 className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
               >
-                <Link to={`/chat/${food.dealId}`} className="">
-                  Chat
-                </Link>
+              <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
+              </Link>
               </button>
             </div>
           </div>
@@ -181,7 +181,7 @@ const DealPage = () => {
               }}
             >
               <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                Chat
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
               </Link>
             </div>
           </div>
