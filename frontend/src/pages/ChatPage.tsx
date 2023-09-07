@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
@@ -14,6 +14,7 @@ interface ChatItem {
 
 const ChatPage: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const state = location.state as { isOwner?: boolean, userName?: string, foodName?: string };
   const isOwner = state?.isOwner;
   const userName = state?.userName;
@@ -23,6 +24,15 @@ const ChatPage: React.FC = () => {
   const [message, setMessage] = useState<string>("");
 
   const senderId = 1; //ログイン機能実装時に変更
+
+  const handleTransactionCompletion = async () => {
+    try {
+      await axios.put(`http://localhost:3000/deals/${dealId}`);
+      navigate("/deal-list");
+    } catch (error) {
+      console.error("There was an error updating the deal data:", error);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -62,9 +72,9 @@ const ChatPage: React.FC = () => {
       {
         isOwner && (
           <button
-            type="submit"
+            type="button"
             className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
-            // onClick={handleSubmit}
+            onClick={handleTransactionCompletion}
            >
            Transaction Completion
           </button>
