@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
@@ -26,7 +26,6 @@ const MyPage = () => {
 
   useEffect(() => {
     if (signInMutation.isSuccess) {
-      console.log(signInMutation.data.data);
       const me = {
         // @ts-ignore
         userId: (signInMutation.data.data.userId as number).toString(),
@@ -73,7 +72,10 @@ const MyPage = () => {
     }
   }, [setMyUser]);
 
-  // const handleSignIn=async ()
+  const handleSignOut = useCallback(() => {
+    setMyUser(undefined);
+    localStorage.removeItem("me");
+  }, [setMyUser]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -81,7 +83,12 @@ const MyPage = () => {
       <Header title="My Page" className="z-50" />
       <div className="p-4 flex-grow items-center justify-center overflow-y-auto">
         {myUser ? (
-          <div>{myUser.userName}</div>
+          <>
+            <div>{myUser.userName}</div>
+            <button className="btn items-center" onClick={handleSignOut}>
+              Sign out
+            </button>
+          </>
         ) : (
           <form
             onSubmit={handleSignInSubmit}
@@ -118,7 +125,6 @@ const MyPage = () => {
             </button>
           </form>
         )}
-        {/*  */}
       </div>
 
       {/* Footer */}
