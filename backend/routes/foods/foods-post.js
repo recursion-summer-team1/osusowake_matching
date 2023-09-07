@@ -48,7 +48,7 @@ const postFood = (req, res) => {
   }
 
   pool.query(
-    "INSERT INTO Food (userId, foodName, foodImageUrl, isSoldOut, expirationDate, quantity, description) VALUES (?,?,?,?,?,?,?,?)",
+    "INSERT INTO Food (userId, foodName, foodImageUrl, isSoldOut, expirationDate, quantity, description) VALUES (?,?,?,?,?,?,?)",
     [
       userId,
       req.body.foodName,
