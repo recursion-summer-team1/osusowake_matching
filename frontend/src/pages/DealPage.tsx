@@ -38,7 +38,6 @@ const DealPage = () => {
     const fetchUserName = async (userId: number) => {
     try {
       if (userId) { // Check if userId is not null or undefined
-        console.log(userId); // Should print the actual userId
         const response = await axios.get(`http://localhost:3000/users/${userId}`);
         return response.data.userName;
       }
@@ -70,13 +69,10 @@ const DealPage = () => {
           ...res.data,
           dealId: dealData[index].dealId,
         }));
-        console.log(foods)
         for (const [index, food] of foods.entries()) {
           if (isOwner) {
-            console.log(dealData[index].requesterId)
             food.userName = await fetchUserName(dealData[index].requesterId);
           } else {
-            console.log(food.userId)
             food.userName = await fetchUserName(food.userId);
           }
         }
