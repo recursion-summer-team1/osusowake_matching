@@ -18,7 +18,7 @@ interface Food {
   updatedAt: Date;
   requesterName?: string;
   ownerName?: string;
-  userName : string;
+  userName: string;
   dealId: number;
 }
 interface DealData {
