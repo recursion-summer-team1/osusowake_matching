@@ -1,5 +1,25 @@
 const pool = require("../../mysqlConnection");
 const bcrypt = require("bcryptjs");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
+const storagePath = path.join(process.cwd(), ".data/images/avatars");
+
+if (!fs.existsSync(storagePath)) {
+  fs.mkdirSync(storagePath, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, storagePath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 const updateUser = (req, res) => {
   const userId = req.params.id;
@@ -22,6 +42,13 @@ const updateUser = (req, res) => {
     query += "userName = ?, ";
     queryParams.push(userName);
     updateData.userName = userName;
+  }
+
+  if (req.file) {
+    const avatarUrl = path.basename(req.file.path);
+    query += "avatarUrl = ?, ";
+    queryParams.push(avatarUrl);
+    updateData.avatarUrl = avatarUrl;
   }
 
   if (email) {
@@ -52,7 +79,7 @@ const executeUpdate = (query, queryParams, userId, updateData, res) => {
 
   pool.query(query, queryParams, (err, results) => {
     if (err) {
-      console.error("user.js: sql execute error");
+      console.error("user.js: sql execute error", err);
       return res.status(500).json({ error: "Internal Server Error" });
     }
 
@@ -64,4 +91,6 @@ const executeUpdate = (query, queryParams, userId, updateData, res) => {
   });
 };
 
-module.exports = updateUser;
+module.exports = {
+  updateUser: [upload.single("avatar"), updateUser]
+};

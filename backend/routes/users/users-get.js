@@ -8,7 +8,7 @@ const getUser = (req, res) => {
   }
 
   pool.query(
-    "SELECT userId, userName, email FROM User WHERE userId = ?;",
+    "SELECT userId, avatarUrl, userName, email FROM User WHERE userId = ?;",
     [userId],
     (err, results) => {
       if (err) {

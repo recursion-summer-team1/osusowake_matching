@@ -2,9 +2,9 @@ var express = require("express");
 var router = express.Router();
 
 const getUser = require("./users-get");
-const createUser = require("./users-post");
+const { createUser } = require("./users-post");
 const deleteUser = require("./users-delete");
-const updateUser = require("./users-update");
+const { updateUser } = require("./users-update");
 const loginUser = require("./users-login");
 
 /* GET User listing. */
