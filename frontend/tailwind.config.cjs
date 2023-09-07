@@ -6,10 +6,15 @@ const {
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  corePlugins: {
+    aspectRatio: false,
+  },
   plugins: [
+    require('@tailwindcss/typography'),
+    require("@tailwindcss/aspect-ratio"),
     require("daisyui"),
     iconsPlugin({
-      collections: getIconCollections(["formkit"]),
+      collections: getIconCollections(["fluent", "uil"]),
     }),
   ],
   daisyui: {

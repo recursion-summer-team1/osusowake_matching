@@ -128,7 +128,7 @@ const DealPage = () => {
               }}
             >
               <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                Chat
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
               </Link>
             </div>
           </div>
@@ -176,7 +176,7 @@ const DealPage = () => {
               }}
             >
               <Link to={`/chat/${food.dealId}`} className="btn btn-primary">
-                Chat
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
               </Link>
             </div>
           </div>
