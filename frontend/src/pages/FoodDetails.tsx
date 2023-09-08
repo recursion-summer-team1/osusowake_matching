@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
 import FooterBar from "../components/FooterBar";
 import { useRecoilValue } from "recoil";
 import { myUserState } from "../utils/myUserState";
+import { serverHostName } from "../utils/serverHostName";
+import toast from "react-hot-toast";
 
 interface FoodItem {
   foodId: number;
@@ -44,7 +46,7 @@ const FoodDetails: React.FC = () => {
   useEffect(() => {
     if (userId) {
       axios
-        .get(`http://localhost:3000/deals/requester/${userId}`)
+        .get(`${serverHostName}/deals/requester/${userId}`)
         .then((response) => {
           setUserDeals(response.data);
         })
@@ -53,10 +55,11 @@ const FoodDetails: React.FC = () => {
         });
     }
   }, [userId]);
+
   useEffect(() => {
     if (id) {
       axios
-        .get<FoodItem>(`http://localhost:3000/foods/soro/${id}`)
+        .get<FoodItem>(`${serverHostName}/foods/soro/${id}`)
         .then((response) => {
           setFoodItem(response.data);
         })
@@ -64,7 +67,14 @@ const FoodDetails: React.FC = () => {
           console.error("There was an error fetching the food item:", error);
         });
     }
+    // toast.success("The transaction contact has been completed."); // TODO: remove
   }, [id]);
+
+  const isDealInProgress = useMemo(() => {
+    if (foodItem)
+      return userDeals.some((deal) => deal.foodId === foodItem.foodId);
+    return false;
+  }, [userDeals, foodItem]);
 
   if (!foodItem) {
     return (
@@ -94,7 +104,17 @@ const FoodDetails: React.FC = () => {
     console.log("foodId:", foodItem.foodId);
     console.log("userId", userId);
     // Create a new deal
-    const dealResponse = await axios.post("http://localhost:3000/deals", {
+    const dealResponse = await axios.post<{
+      // should be fix in backend
+      affectedRows: number;
+      changedRows: number;
+      fieldCount: number;
+      insertId: number;
+      message: string;
+      protocol41: boolean;
+      serverStatus: number;
+      warningCount: number;
+    }>(`${serverHostName}/deals`, {
       requesterId: userId,
       foodId: foodItem.foodId,
       isComplete: false,
@@ -103,7 +123,7 @@ const FoodDetails: React.FC = () => {
     const dealId = dealResponse.data.insertId;
 
     // Create a new chat message
-    await axios.post("http://localhost:3000/chats", {
+    await axios.post(`${serverHostName}/chats`, {
       dealId: dealId,
       senderId: userId,
       content: initialMessage,
@@ -112,9 +132,21 @@ const FoodDetails: React.FC = () => {
 
   const handleSubmit = async () => {
     setShowModal(false);
-    setShowPurchasePopup(true);
+    // setShowPurchasePopup(true);
     // Create deal and chat
     await createDealAndChat();
+    // workaround for show toast
+    if (userId) {
+      axios
+        .get(`${serverHostName}/deals/requester/${userId}`)
+        .then((response) => {
+          setUserDeals(response.data);
+          toast.success("The transaction contact has been completed.");
+        })
+        .catch((error) => {
+          console.error("Error fetching user deals:", error);
+        });
+    }
   };
 
   const closePurchasePopup = () => {
@@ -140,13 +172,13 @@ const FoodDetails: React.FC = () => {
             src={
               foodItem.foodImageUrl.startsWith("http")
                 ? foodItem.foodImageUrl
-                : `http://localhost:3000/images/foods/${foodItem.foodImageUrl}`
+                : `${serverHostName}/images/foods/${foodItem.foodImageUrl}`
             }
             alt={foodItem.foodName}
             className="w-full h-full object-cover rounded-md"
           />
           <h1 className="text-2xl font-bold py-2 px-1">{foodItem.foodName}</h1>
-          <p className="text-base items-center flex justify-center">
+          <div className="text-base items-center flex justify-center">
             <div className="flex items-center m-1">
               <div className="avatar px-1">
                 <div className="w-6 rounded-full">
@@ -155,7 +187,7 @@ const FoodDetails: React.FC = () => {
               </div>
               {foodItem.userName}
             </div>
-          </p>
+          </div>
           <p className="text-lg">
             Expiration Date: {formatDate(foodItem.expirationDate)}
           </p>
@@ -167,7 +199,7 @@ const FoodDetails: React.FC = () => {
           </div>
         </div>
       </div>
-      {userDeals.some((deal) => deal.foodId === foodItem.foodId) ? (
+      {isDealInProgress ? (
         <div className="sticky flex bottom-14 mx-1 mb-1 mt-2 justify-center">
           <div className="badge badge-lg m-2 badge-accent">
             Deal in progress

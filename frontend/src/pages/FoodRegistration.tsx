@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "../components/Header";
 import FooterBar from "../components/FooterBar";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { serverHostName } from "../utils/serverHostName";
+import { toast } from "react-hot-toast";
 
 const FoodRegistration: React.FC = () => {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState<{
     userId: string;
     foodName: string;
@@ -24,6 +23,16 @@ const FoodRegistration: React.FC = () => {
     quantity: "",
     description: "",
   });
+
+  const foodNameRef = useRef<HTMLInputElement | null>(null);
+  const foodImageRef = useRef<HTMLInputElement | null>(null);
+  const expirationDateRef = useRef<HTMLInputElement | null>(null);
+  const quantityRef = useRef<HTMLInputElement | null>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // useEffect(() => {
+  //   foodNameRef.current?.focus();
+  // }, []);
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -61,7 +70,7 @@ const FoodRegistration: React.FC = () => {
 
     // Send POST request to /foods API
     axios
-      .post("http://localhost:3000/foods", data, {
+      .post(`${serverHostName}/foods`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -69,7 +78,18 @@ const FoodRegistration: React.FC = () => {
       .then((response) => {
         console.log("Food item registered:", response.data);
         setShowPopup(false);
-        navigate(0);
+        [
+          foodNameRef,
+          foodImageRef,
+          expirationDateRef,
+          quantityRef,
+          descriptionRef,
+        ].forEach((ref) => {
+          if (ref.current) {
+            ref.current.value = "";
+          }
+        });
+        toast.success("The food has been registered.");
       })
       .catch((error) => {
         console.error("There was an error registering the food item:", error);
@@ -105,6 +125,7 @@ const FoodRegistration: React.FC = () => {
             </label>
             <input
               required
+              ref={foodNameRef}
               type="text"
               id="foodName"
               name="foodName"
@@ -121,6 +142,7 @@ const FoodRegistration: React.FC = () => {
             </label>
             <input
               required
+              ref={foodImageRef}
               className="file-input file-input-bordered w-full"
               type="file"
               id="foodImage"
@@ -137,6 +159,7 @@ const FoodRegistration: React.FC = () => {
             </label>
             <input
               required
+              ref={expirationDateRef}
               type="date"
               id="expirationDate"
               name="expirationDate"
@@ -159,6 +182,7 @@ const FoodRegistration: React.FC = () => {
             </label>
             <input
               required
+              ref={quantityRef}
               type="text"
               id="quantity"
               name="quantity"
@@ -175,6 +199,7 @@ const FoodRegistration: React.FC = () => {
               <span className="label-text">Description</span>
             </label>
             <textarea
+              ref={descriptionRef}
               id="description"
               name="description"
               className="input input-bordered input-md w-full h-20 rounded-2xl"

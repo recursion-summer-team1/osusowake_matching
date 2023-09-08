@@ -5,6 +5,8 @@ import { useRecoilValue } from "recoil";
 import { myUserState } from "../utils/myUserState";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
+import { serverHostName } from "../utils/serverHostName";
+import toast from "react-hot-toast";
 
 interface ChatItem {
   chatId: number;
@@ -34,8 +36,9 @@ const ChatPage: React.FC = () => {
 
   const handleTransactionCompletion = async () => {
     try {
-      await axios.put(`http://localhost:3000/deals/${dealId}`);
+      await axios.put(`${serverHostName}/deals/${dealId}`);
       navigate("/deal-list");
+      toast.success("The food deal has been completed.");
     } catch (error) {
       console.error("There was an error updating the deal data:", error);
     }
@@ -43,7 +46,7 @@ const ChatPage: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/chats/${dealId}`)
+      .get(`${serverHostName}/chats/${dealId}`)
       .then((response) => {
         setChats(response.data);
       })
@@ -62,14 +65,14 @@ const ChatPage: React.FC = () => {
     if (!message) return;
 
     try {
-      await axios.post("http://localhost:3000/chats", {
+      await axios.post(`${serverHostName}/chats`, {
         dealId: parseInt(dealId ? dealId : "0"),
         senderId: senderId,
         content: message,
       });
 
       setMessage("");
-      const response = await axios.get(`http://localhost:3000/chats/${dealId}`);
+      const response = await axios.get(`${serverHostName}/chats/${dealId}`);
       setChats(response.data);
     } catch (error) {
       console.error("There was an error posting the chat data:", error);

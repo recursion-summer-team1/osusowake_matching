@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myUserState } from "../utils/myUserState";
+import { serverHostName } from "../utils/serverHostName";
 
 interface FoodItem {
   foodId: number;
@@ -23,7 +24,7 @@ const FoodList: React.FC = () => {
       try {
         // userIdを使用してAPIを呼び出す
         const response = await axios.get(
-          `http://localhost:3000/foods/${myUser?.userId}`,
+          `${serverHostName}/foods/${myUser?.userId}`,
         );
         setFoodData(response.data);
       } catch (error) {
@@ -48,7 +49,7 @@ const FoodList: React.FC = () => {
                   src={
                     item.foodImageUrl.startsWith("http")
                       ? item.foodImageUrl
-                      : `http://localhost:3000/images/foods/${item.foodImageUrl}`
+                      : `${serverHostName}/images/foods/${item.foodImageUrl}`
                   }
                   alt={item.userName}
                   className="w-full h-full object-cover rounded-md"
