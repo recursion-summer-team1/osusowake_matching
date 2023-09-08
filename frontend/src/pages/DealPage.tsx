@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myUserState } from "../utils/myUserState";
+import { serverHostName } from "../utils/serverHostName";
 
 interface Food {
   foodId: number;
@@ -53,7 +54,7 @@ const DealPage = () => {
         if (userId) {
           // Check if userId is not null or undefined
           const response = await axios.get(
-            `http://localhost:3000/users/${userId}`,
+            `${serverHostName}/users/${userId}`,
           );
           return response.data.userName;
         }
@@ -78,7 +79,7 @@ const DealPage = () => {
         );
         const foodResponses = await Promise.all(
           dealData.map((deal: DealData) =>
-            axios.get(`http://localhost:3000/foods/soro/${deal.foodId}`),
+            axios.get(`${serverHostName}/foods/soro/${deal.foodId}`),
           ),
         );
         const foods = foodResponses.map((res, index) => ({
@@ -101,11 +102,11 @@ const DealPage = () => {
     };
 
     fetchDealsAndFoods(
-      `http://localhost:3000/deals/requester/${myUser?.userId}`,
+      `${serverHostName}/deals/requester/${myUser?.userId}`,
       setFoodsToShareByOthers,
     );
     fetchDealsAndFoods(
-      `http://localhost:3000/deals/owner/${myUser?.userId}`,
+      `${serverHostName}/deals/owner/${myUser?.userId}`,
       setMyFoodsToShare,
       true,
     );
@@ -131,7 +132,7 @@ const DealPage = () => {
                   src={
                     food.foodImageUrl.startsWith("http")
                       ? food.foodImageUrl
-                      : `http://localhost:3000/images/foods/${food.foodImageUrl}`
+                      : `${serverHostName}/images/foods/${food.foodImageUrl}`
                   }
                   alt={food.foodName}
                   style={{ width: "100%", height: "100px", objectFit: "cover" }}
@@ -174,13 +175,13 @@ const DealPage = () => {
                 }
                 className="btn btn-success"
               >
-                Chat
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
               </button>
             </div>
           </div>
         ))}
-
-        <h2 className="text-lg text-left pt-2">Foods to share by others</h2>
+        <div className="divider" />
+        <h2 className="text-lg text-left">Foods to share by others</h2>
         {foodsToShareByOthers.map((food, i) => (
           <div
             className="card card-side flex-grow h-48 w-full bg-base-200 shadow-sm my-1"
@@ -195,7 +196,7 @@ const DealPage = () => {
                 src={
                   food.foodImageUrl.startsWith("http")
                     ? food.foodImageUrl
-                    : `http://localhost:3000/images/foods/${food.foodImageUrl}`
+                    : `${serverHostName}/images/foods/${food.foodImageUrl}`
                 }
                 alt={food.foodName}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -237,7 +238,7 @@ const DealPage = () => {
                 }
                 className="btn btn-success"
               >
-                Chat
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
               </button>
             </div>
           </div>

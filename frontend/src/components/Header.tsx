@@ -19,21 +19,26 @@ const Header: React.FC<HeaderProps> = ({ title, className }) => {
     location.pathname.startsWith("/chat/");
 
   return (
-    <header className={`sticky inset-x-0 top-0 py-5 shadow-md ${className}`}>
-      <div className="container mx-auto flex justify-center items-center">
-        {shouldShowBackButton && (
-          <button
-            onClick={handleBackClick}
-            className="mr-4 p-2 rounded bg-business text-business"
-          >
-            <div className="flex flex-col items-center">
-              <span className="i-fluent-arrow-circle-left-32-regular text-3xl" />
-            </div>
-          </button>
+    <header className={`sticky glass inset-x-0 top-0 shadow-md ${className}`}>
+      <div className="container navbar mx-auto justify-center items-center">
+        {shouldShowBackButton ? (
+          <div className="navbar-start">
+            <button
+              onClick={handleBackClick}
+              className="btn btn-ghost rounded bg-business text-business"
+            >
+              <span className="i-fluent-arrow-circle-left-32-regular text-3xl text-info" />
+            </button>
+          </div>
+        ) : (
+          <div className="navbar-start" />
         )}
-        <h1 className="text-center text-business font-semibold text-xl tracking-wider">
-          {title}
-        </h1>
+        <div className="navbar-center">
+          <h1 className="text-business font-semibold text-xl tracking-wider">
+            {title}
+          </h1>
+        </div>
+        <div className="navbar-end" />
       </div>
     </header>
   );

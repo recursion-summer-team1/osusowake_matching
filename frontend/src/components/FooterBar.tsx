@@ -4,21 +4,23 @@ import { Link, useLocation } from "react-router-dom";
 const FooterBar: React.FC = () => {
   const location = useLocation();
   const activeDict = useMemo(() => {
-    const pathNames = [
-      "food-list",
-      "food-registration",
-      "chat",
-      "deal-list",
-      "me",
-    ] as const;
+    const activeDictPathNames = {
+      "food-list": ["food-list", "food-details"],
+      "food-registration": ["food-registration"],
+      "deal-list": ["deal-list", "chat"],
+      me: ["me"],
+    } as const;
     const obj = {} as {
-      [Key in (typeof pathNames)[number]]: string;
+      [Key in (keyof typeof activeDictPathNames)[number]]: string;
     };
-    pathNames.forEach((s) => {
-      obj[s] =
-        location.pathname === `/${s}`
-          ? "active text-info"
-          : "text-base-content text-opacity-40";
+    (
+      Object.keys(activeDictPathNames) as (keyof typeof activeDictPathNames)[]
+    ).forEach((key) => {
+      obj[key] = (activeDictPathNames[key] as unknown as string[]).includes(
+        location.pathname.match(/\/([^/]*)/)?.[1] ?? "",
+      )
+        ? "active text-info"
+        : "text-base-content text-opacity-40";
     });
     return obj;
   }, [location]);
