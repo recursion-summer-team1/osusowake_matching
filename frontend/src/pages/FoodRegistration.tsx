@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import FooterBar from "../components/FooterBar";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { myUserState } from "../utils/myUserState";
 import axios from "axios";
 
 const FoodRegistration: React.FC = () => {
@@ -27,6 +29,8 @@ const FoodRegistration: React.FC = () => {
 
   const [showPopup, setShowPopup] = useState(false);
 
+  const myUser = useRecoilValue(myUserState);
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -46,8 +50,9 @@ const FoodRegistration: React.FC = () => {
 
   const handleConfirm = () => {
     const data = new FormData();
-
-    data.append("userId", "1");
+    
+    data.append("userId", myUser?.userId as string);
+    
     data.append("foodName", formData.foodName);
     if (formData.foodImage) {
       data.append("foodImage", formData.foodImage);
