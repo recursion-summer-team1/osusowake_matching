@@ -184,7 +184,13 @@ const FoodDetails: React.FC = () => {
             <div className="flex items-center m-1 text-lg">
               <div className="avatar px-1">
                 <div className="w-6 rounded-full">
-                  <img src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/117.jpg" />
+                  <img
+                    src={
+                      foodItem.avatarUrl.startsWith("http")
+                        ? foodItem.avatarUrl
+                        : `http://localhost:3000/images/avatars/${foodItem.avatarUrl}`
+                    }
+                  />
                 </div>
               </div>
               {foodItem.userName}
