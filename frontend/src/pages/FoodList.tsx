@@ -49,15 +49,17 @@ const FoodList: React.FC = () => {
               className="relative bg-white p-4 rounded-xl shadow-md"
             >
               <Link to={`/food-details/${item.foodId}`}>
-                <img
-                  src={
-                    item.foodImageUrl.startsWith("http")
-                      ? item.foodImageUrl
-                      : `${serverHostName}/images/foods/${item.foodImageUrl}`
-                  }
-                  alt={item.userName}
-                  className="w-full h-full object-cover rounded-md"
-                />
+                <div className="w-[130px] h-[130px]">
+                  <img
+                    src={
+                      item.foodImageUrl.startsWith("http")
+                        ? item.foodImageUrl
+                        : `${serverHostName}/images/foods/${item.foodImageUrl}`
+                    }
+                    alt={item.userName}
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                </div>
                 <span className="absolute bottom-1 left-1 bg-white bg-opacity-60 text-sm rounded">
                   <div className="flex items-center m-1">
                     <div className="avatar px-1">
