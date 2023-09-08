@@ -15,7 +15,8 @@ const getFoodById = (req, res) => {
   const query = `
     SELECT 
       Food.*,
-      User.userName
+      User.userName,
+      User.avatarUrl
     FROM
       Food
     JOIN

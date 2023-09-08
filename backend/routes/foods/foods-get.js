@@ -34,7 +34,8 @@ const getFood = (req, res) => {
         Food.foodName,
         Food.foodImageUrl,
         User.UserId,
-        User.userName
+        User.userName,
+        User.avatarUrl
       FROM Food
       JOIN User ON Food.userId = User.userId
       WHERE Food.isSoldOut = false
