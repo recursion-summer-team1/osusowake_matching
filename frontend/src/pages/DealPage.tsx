@@ -179,13 +179,13 @@ const DealPage = () => {
                 }
                 className="btn btn-success"
               >
-                Chat
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
               </button>
             </div>
           </div>
         ))}
-
-        <h2 className="text-lg text-left pt-2">Foods to share by others</h2>
+        <div className="divider" />
+        <h2 className="text-lg text-left">Foods to share by others</h2>
         {foodsToShareByOthers.map((food, i) => (
           <div
             className="card card-side flex-grow h-48 w-full bg-base-200 shadow-sm my-1"
@@ -241,7 +241,7 @@ const DealPage = () => {
                 }
                 className="btn btn-success"
               >
-                Chat
+                <span className="i-fluent-chat-28-filled text-xl text-base-100" />
               </button>
             </div>
           </div>

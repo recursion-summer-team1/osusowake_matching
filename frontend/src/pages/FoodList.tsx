@@ -51,10 +51,17 @@ const FoodList: React.FC = () => {
                       : `http://localhost:3000/images/foods/${item.foodImageUrl}`
                   }
                   alt={item.userName}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-md"
                 />
-                <span className="absolute bottom-2 right-2 bg-white bg-opacity-50 text-black rounded">
-                  {item.userName}
+                <span className="absolute bottom-1 left-1 bg-white bg-opacity-60 text-sm rounded">
+                  <div className="flex items-center m-1">
+                    <div className="avatar px-1">
+                      <div className="w-5 rounded-full">
+                        <img src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/117.jpg" />
+                      </div>
+                    </div>
+                    {item.userName}
+                  </div>
                 </span>
               </Link>
             </div>

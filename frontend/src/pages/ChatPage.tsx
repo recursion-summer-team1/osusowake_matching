@@ -52,6 +52,10 @@ const ChatPage: React.FC = () => {
       });
   }, [dealId]);
 
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom when the chat is updated
+  }, [chats]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -79,7 +83,7 @@ const ChatPage: React.FC = () => {
       {isOwner && (
         <button
           type="button"
-          className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
+          className="btn btn-success shadow-md sticky top-[4.5rem] m-1 z-50 bg-opacity-95"
           onClick={handleTransactionCompletion}
         >
           Transaction Completion
@@ -101,7 +105,7 @@ const ChatPage: React.FC = () => {
                   {new Date(chat.createdAt).toLocaleString()}
                 </time>
               </div>
-              <div className="chat-bubble chat-bubble-primary">
+              <div className="chat-bubble chat-bubble-primary prose break-words">
                 {chat.content}
               </div>
             </div>
@@ -118,7 +122,7 @@ const ChatPage: React.FC = () => {
                   {new Date(chat.createdAt).toLocaleString()}
                 </time>
               </div>
-              <div className="chat-bubble chat-bubble-secondary prose">
+              <div className="chat-bubble chat-bubble-secondary prose break-words">
                 {chat.content}
               </div>
             </div>
@@ -127,23 +131,25 @@ const ChatPage: React.FC = () => {
       </div>
       {/* Input form */}
       <form
-        className="sticky flex bottom-14 mx-1 w-[full-2] mb-1 mt-2 justify-center"
+        className="sticky flex bottom-14 mx-1 mb-1 mt-2 justify-center"
         onSubmit={handleSubmit}
       >
-        <input
-          type="text"
-          placeholder="Type your message..."
-          className="input input-bordered input-md input-primary w-full mx-1 shadow"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="btn bg-success text-base-100 shadow"
-          // onClick={handleSubmit}
-        >
-          <span className="i-fluent-send-32-filled" />
-        </button>
+        <div className="join w-full shadow">
+          <input
+            type="text"
+            placeholder="Type your message..."
+            className="join-item input input-bordered input-md input-primary w-full"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="join-item btn bg-success text-base-100 border-primary"
+            // onClick={handleSubmit}
+          >
+            <span className="i-fluent-send-32-filled text-base" />
+          </button>
+        </div>
       </form>
       {/* Footer */}
       <FooterBar />

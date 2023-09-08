@@ -36,18 +36,19 @@ const FoodDetails: React.FC = () => {
   const [initialMessage, setInitialMessage] = useState("");
   const navigate = useNavigate();
 
-  const myUser = useRecoilValue(myUserState)
+  const myUser = useRecoilValue(myUserState);
   const [userDeals, setUserDeals] = useState<Deal[]>([]);
   const [showAlreadyTradedPopup, setShowAlreadyTradedPopup] = useState(false);
   const userId = myUser?.userId;
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:3000/deals/requester/${userId}`)
-        .then(response => {
+      axios
+        .get(`http://localhost:3000/deals/requester/${userId}`)
+        .then((response) => {
           setUserDeals(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching user deals:", error);
         });
     }
@@ -66,11 +67,22 @@ const FoodDetails: React.FC = () => {
   }, [id]);
 
   if (!foodItem) {
-    return <div>Loading or Item not found...</div>;
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Header title="Food Details" className="z-50" />
+        <div className="flex-grow overflow-y-auto p-4 flex items-center justify-center">
+          <div>Loading or Item not found...</div>
+        </div>
+
+        <FooterBar />
+      </div>
+    );
   }
 
   const handleButtonClick = () => {
-    const alreadyTraded = userDeals.some(deal => deal.foodId === foodItem.foodId);
+    const alreadyTraded = userDeals.some(
+      (deal) => deal.foodId === foodItem.foodId,
+    );
     if (alreadyTraded) {
       setShowAlreadyTradedPopup(true);
     } else {
@@ -131,57 +143,68 @@ const FoodDetails: React.FC = () => {
                 : `http://localhost:3000/images/foods/${foodItem.foodImageUrl}`
             }
             alt={foodItem.foodName}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-md"
           />
-          <h1 className="text-2xl font-bold">{foodItem.foodName}</h1>
-          <p className="text-lg">Owner: {foodItem.userName}</p>
+          <h1 className="text-2xl font-bold py-2 px-1">{foodItem.foodName}</h1>
+          <p className="text-base items-center flex justify-center">
+            <div className="flex items-center m-1">
+              <div className="avatar px-1">
+                <div className="w-6 rounded-full">
+                  <img src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/117.jpg" />
+                </div>
+              </div>
+              {foodItem.userName}
+            </div>
+          </p>
           <p className="text-lg">
             Expiration Date: {formatDate(foodItem.expirationDate)}
           </p>
           <p className="text-lg">Quantity: {foodItem.quantity}</p>
 
           <div className="mt-6">
-            <h2 className="text-xl font-semibold">Description:</h2>
+            {/* <h2 className="text-xl font-semibold">Description:</h2> */}
             <p className="text-lg">{foodItem.description}</p>
           </div>
-
-          {userDeals.some(deal => deal.foodId === foodItem.foodId) ? (
-          <div className="badge badge-lg mt-2 badge-accent">deal in progres</div>
-        ) : (
-          <button
-            className="btn btn-success shadow w-[full-2] sticky top-12  p-2 rounded mt-4 ml-4"
-            onClick={handleButtonClick}
-          >
-            I want it!
-          </button>
-        )}
         </div>
       </div>
+      {userDeals.some((deal) => deal.foodId === foodItem.foodId) ? (
+        <div className="sticky flex bottom-14 mx-1 mb-1 mt-2 justify-center">
+          <div className="badge badge-lg m-2 badge-accent">
+            Deal in progress
+          </div>
+        </div>
+      ) : (
+        <div className="sticky flex bottom-14 mx-1 mb-1 mt-2 justify-center">
+          <button
+            className="btn btn-success shadow w-full sticky bottom-14 p-4 mt-4"
+            onClick={handleButtonClick}
+          >
+            I want this!
+          </button>
+        </div>
+      )}
 
       <FooterBar />
 
       {/* Initial Message Popup */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100">
-          <div className="bg-white p-4 rounded">
+          <div className="modal-box w-full">
             <h2>Initial Message</h2>
             <input
               type="text"
               value={initialMessage}
               onChange={(e) => setInitialMessage(e.target.value)}
-              className="border p-2 rounded w-full"
+              className="input input-bordered border w-full"
             />
-            <div className="flex justify-between mt-4">
+            <div className="modal-action flex justify-between">
               <button
-                className="btn btn-error shadow w-[full-2] p-2 rounded"
+                className="btn btn-error shadow"
                 onClick={() => setShowModal(false)}
               >
                 Cancel
               </button>
-              <button
-                className="btn btn-success shadow w-[full-2] p-2 rounded"
-                onClick={handleSubmit}
-              >
+              <button className="btn btn-success shadow" onClick={handleSubmit}>
                 Submit
               </button>
             </div>
@@ -192,26 +215,34 @@ const FoodDetails: React.FC = () => {
       {/* Purchase Completed Popup */}
       {showPurchasePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100">
-          <div className="bg-white p-4 rounded">
-            <h2>Purchase Completed</h2>
-            <p>You have successfully purchased {foodItem.foodName}.</p>
-            <button
-              className="btn btn-accent shadow w-[full-2] p-2 rounded"
-              onClick={closePurchasePopup}
-            >
-              Close
-            </button>
+          <div className="modal-box w-full">
+            <h2 className="text-lg">
+              The transaction contact for food "
+              <span className="font-bold">{foodItem.foodName}</span>" has been
+              completed.
+            </h2>
+            <div className="modal-action">
+              <button
+                className="btn btn-accent shadow"
+                onClick={closePurchasePopup}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
 
+      {/* No need? */}
       {showAlreadyTradedPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100">
           <div className="bg-white p-4 rounded">
             <h2>Trade Not Possible</h2>
-            <p>This food item has already been traded and cannot be traded again.</p>
+            <p>
+              This food item has already been traded and cannot be traded again.
+            </p>
             <button
-              className="btn btn-accent shadow w-[full-2] p-2 rounded"
+              className="btn btn-accent shadow p-2 rounded"
               onClick={() => setShowAlreadyTradedPopup(false)}
             >
               Close
@@ -219,7 +250,6 @@ const FoodDetails: React.FC = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
