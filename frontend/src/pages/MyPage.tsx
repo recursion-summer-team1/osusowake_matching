@@ -12,7 +12,7 @@ import { FoodItem } from "../utils/foodItem";
 import { Link } from "react-router-dom";
 
 type Friendships = {
-  mutualFollowers: { userId: number; userName: string }[];
+  mutualFollowers: { userId: number; userName: string; avatarUrl: string }[];
 };
 
 const MyPage = () => {
@@ -41,6 +41,8 @@ const MyPage = () => {
         email: signInMutation.variables!.email,
         // @ts-ignore
         userName: signInMutation.data.data.userName as string,
+        // @ts-ignore
+        avatarUrl: signInMutation.data.data.avatarUrl as string,
       };
       setMyUser(me);
       localStorage.setItem("me", JSON.stringify(me));
@@ -99,7 +101,13 @@ const MyPage = () => {
             <div className="flex items-center p-1">
               <div className="avatar px-4">
                 <div className="w-14 rounded-full">
-                  <img src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/117.jpg" />
+                  <img
+                    src={
+                      myUser.avatarUrl.startsWith("http")
+                        ? myUser.avatarUrl
+                        : `http://localhost:3000/images/avatars/${myUser.avatarUrl}`
+                    }
+                  />
                 </div>
               </div>
               <div className="text-xl">{myUser.userName}</div>
@@ -123,7 +131,13 @@ const MyPage = () => {
                           <div className="flex items-center p-1" key={i}>
                             <div className="avatar px-2">
                               <div className="w-8 rounded-full">
-                                <img src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/117.jpg" />
+                                <img
+                                  src={
+                                    friend.avatarUrl.startsWith("http")
+                                      ? friend.avatarUrl
+                                      : `http://localhost:3000/images/avatars/${friend.avatarUrl}`
+                                  }
+                                />
                               </div>
                             </div>
                             {friend.userName}
