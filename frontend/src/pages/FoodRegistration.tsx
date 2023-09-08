@@ -59,9 +59,9 @@ const FoodRegistration: React.FC = () => {
 
   const handleConfirm = () => {
     const data = new FormData();
-    
+
     data.append("userId", myUser?.userId as string);
-    
+
     data.append("foodName", formData.foodName);
     if (formData.foodImage) {
       data.append("foodImage", formData.foodImage);

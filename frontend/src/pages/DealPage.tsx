@@ -53,9 +53,7 @@ const DealPage = () => {
       try {
         if (userId) {
           // Check if userId is not null or undefined
-          const response = await axios.get(
-            `${serverHostName}/users/${userId}`,
-          );
+          const response = await axios.get(`${serverHostName}/users/${userId}`);
           return response.data.userName;
         }
       } catch (error) {
