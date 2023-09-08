@@ -20,6 +20,7 @@ interface FoodItem {
   createdAt: string;
   updatedAt: string;
   userName: string;
+  avatarUrl: string;
 }
 interface Deal {
   dealId: number;

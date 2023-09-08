@@ -9,7 +9,7 @@ const getMutualFollowers = (req, res) => {
 
   // 特定のユーザーIDを持つユーザーと相互にフォローしあっているフォロワーのIDと名前を取得するSQLクエリ
   const sqlQuery = `
-    SELECT f1.followeeId AS userId, u.userName
+    SELECT f1.followeeId AS userId, u.userName, u.avatarUrl
     FROM FriendShip AS f1
     JOIN FriendShip AS f2 ON f1.followerId = f2.followeeId AND f1.followeeId = f2.followerId
     JOIN User AS u ON f1.followeeId = u.userId
@@ -29,6 +29,7 @@ const getMutualFollowers = (req, res) => {
     const mutualFollowers = results.map((row) => ({
       userId: row.userId,
       userName: row.userName,
+      avatarUrl: row.avatarUrl,
     }));
 
     res.status(200).json({ mutualFollowers });
