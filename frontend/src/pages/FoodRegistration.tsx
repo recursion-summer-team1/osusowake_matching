@@ -143,7 +143,7 @@ const FoodRegistration: React.FC = () => {
             <input
               required
               ref={foodImageRef}
-              className="file-input file-input-bordered w-full"
+              className="file-input file-input-bordered w-full file-input-primary"
               type="file"
               id="foodImage"
               name="foodImage"

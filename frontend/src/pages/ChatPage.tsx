@@ -108,7 +108,7 @@ const ChatPage: React.FC = () => {
                   {new Date(chat.createdAt).toLocaleString()}
                 </time>
               </div>
-              <div className="chat-bubble chat-bubble-primary prose break-words">
+              <div className="chat-bubble chat-bubble-secondary prose break-words">
                 {chat.content}
               </div>
             </div>
@@ -125,7 +125,7 @@ const ChatPage: React.FC = () => {
                   {new Date(chat.createdAt).toLocaleString()}
                 </time>
               </div>
-              <div className="chat-bubble chat-bubble-secondary prose break-words">
+              <div className="chat-bubble chat-bubble-primary prose break-words">
                 {chat.content}
               </div>
             </div>
@@ -147,7 +147,7 @@ const ChatPage: React.FC = () => {
           />
           <button
             type="submit"
-            className="join-item btn bg-success text-base-100 border-primary"
+            className="join-item btn bg-primary text-base-100 border-primary"
             // onClick={handleSubmit}
           >
             <span className="i-fluent-send-32-filled text-base" />

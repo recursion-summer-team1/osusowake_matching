@@ -89,7 +89,7 @@ const MyPage = () => {
             <div className="h-2" />
             {myFriendshipsQuery.isLoading ? undefined : myFriendshipsQuery.data ? (
               <div className="">
-                <details className="collapse collapse-plus border outline-offset-0">
+                <details className="collapse collapse-arrow border outline-offset-0">
                   <summary className="collapse-title">
                     <div>
                       {myFriendshipsQuery.data.mutualFollowers.length === 1
