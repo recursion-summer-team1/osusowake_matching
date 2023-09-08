@@ -167,7 +167,8 @@ const FoodDetails: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <Header title="Food Details" className="z-50" />
       <div className="flex-grow overflow-y-auto p-4 flex items-center justify-center">
-        <div className="text-center">
+        {/* <div className="text-center"> */}
+        <div className="bg-white p-4 rounded-xl shadow-md w-full">
           <img
             src={
               foodItem.foodImageUrl.startsWith("http")
@@ -178,8 +179,8 @@ const FoodDetails: React.FC = () => {
             className="w-full h-full object-cover rounded-md"
           />
           <h1 className="text-2xl font-bold py-2 px-1">{foodItem.foodName}</h1>
-          <div className="text-base items-center flex justify-center">
-            <div className="flex items-center m-1">
+          <div className="text-base items-center flex">
+            <div className="flex items-center m-1 text-lg">
               <div className="avatar px-1">
                 <div className="w-6 rounded-full">
                   <img src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/117.jpg" />
@@ -188,15 +189,20 @@ const FoodDetails: React.FC = () => {
               {foodItem.userName}
             </div>
           </div>
-          <p className="text-lg">
-            Expiration Date: {formatDate(foodItem.expirationDate)}
-          </p>
-          <p className="text-lg">Quantity: {foodItem.quantity}</p>
-
-          <div className="mt-6">
-            {/* <h2 className="text-xl font-semibold">Description:</h2> */}
-            <p className="text-lg">{foodItem.description}</p>
+          <div className="flex items-center mb-1 space-x-2">
+            <p className="text-lg font-medium">
+              Expiration Date: {formatDate(foodItem.expirationDate)}
+            </p>
           </div>
+
+          <div className="flex items-center mb-4 space-x-2">
+            <p className="text-lg font-medium">Quantity: {foodItem.quantity}</p>
+          </div>
+          {foodItem.description === "" ? (
+            <div className="bg-gray-100 p-3 rounded-lg mt-4">
+              <p className="text-lg">{foodItem.description}</p>
+            </div>
+          ) : undefined}
         </div>
       </div>
       {isDealInProgress ? (
