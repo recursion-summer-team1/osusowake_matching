@@ -124,6 +124,7 @@ const FoodDetails: React.FC = () => {
       <Header title="Food Details" className="z-50" />
       <div className="flex-grow overflow-y-auto p-4 flex items-center justify-center">
         <div className="text-center">
+        <div className="bg-white p-4 rounded-xl shadow-md">
           <img
             src={
               foodItem.foodImageUrl.startsWith("http")
@@ -133,18 +134,25 @@ const FoodDetails: React.FC = () => {
             alt={foodItem.foodName}
             className="w-full h-full object-cover"
           />
-          <h1 className="text-2xl font-bold">{foodItem.foodName}</h1>
-          <p className="text-lg">Owner: {foodItem.userName}</p>
-          <p className="text-lg">
-            Expiration Date: {formatDate(foodItem.expirationDate)}
-          </p>
-          <p className="text-lg">Quantity: {foodItem.quantity}</p>
+            <h1 className="text-3xl font-bold mb-1">{foodItem.foodName}</h1>
 
-          <div className="mt-6">
-            <h2 className="text-xl font-semibold">Description:</h2>
-            <p className="text-lg">{foodItem.description}</p>
+            <div className="flex items-center mb-1 space-x-2">
+              <p className="text-lg font-medium">Owner: {foodItem.userName}</p>
+            </div>
+
+            <div className="flex items-center mb-1 space-x-2">
+              <p className="text-lg font-medium">Expiration Date: {formatDate(foodItem.expirationDate)}</p>
+            </div>
+
+            <div className="flex items-center mb-4 space-x-2">
+              <p className="text-lg font-medium">Quantity: {foodItem.quantity}</p>
+            </div>
+
+            <div className="bg-gray-100 p-3 rounded-lg mt-4">
+              <h2 className="text-xl font-semibold mb-1">Description:</h2>
+              <p className="text-lg">{foodItem.description}</p>
+            </div>
           </div>
-
           {userDeals.some(deal => deal.foodId === foodItem.foodId) ? (
           <div className="badge badge-lg mt-2 badge-accent">deal in progres</div>
         ) : (
