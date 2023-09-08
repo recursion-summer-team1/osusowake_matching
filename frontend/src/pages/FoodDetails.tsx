@@ -170,15 +170,17 @@ const FoodDetails: React.FC = () => {
       <div className="flex-grow overflow-y-auto p-4 flex items-center justify-center">
         {/* <div className="text-center"> */}
         <div className="bg-white p-4 rounded-xl shadow-md w-full">
-          <img
-            src={
-              foodItem.foodImageUrl.startsWith("http")
-                ? foodItem.foodImageUrl
-                : `${serverHostName}/images/foods/${foodItem.foodImageUrl}`
-            }
-            alt={foodItem.foodName}
-            className="w-full h-full object-cover rounded-md"
-          />
+          <div className="h-[280px]">
+            <img
+              src={
+                foodItem.foodImageUrl.startsWith("http")
+                  ? foodItem.foodImageUrl
+                  : `${serverHostName}/images/foods/${foodItem.foodImageUrl}`
+              }
+              alt={foodItem.foodName}
+              className="w-full h-full object-cover rounded-md"
+            />
+          </div>
           <h1 className="text-2xl font-bold py-2 px-1">{foodItem.foodName}</h1>
           <div className="text-base items-center flex">
             <div className="flex items-center m-1 text-lg">
