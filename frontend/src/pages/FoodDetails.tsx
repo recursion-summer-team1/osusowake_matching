@@ -220,7 +220,7 @@ const FoodDetails: React.FC = () => {
             Deal in progress
           </div>
         </div>
-      ) : (
+      ) : `${foodItem.userId}` !== userId ? (
         <div className="sticky flex bottom-14 mx-1 mb-1 mt-2 justify-center">
           <button
             className="btn btn-success shadow w-full sticky bottom-14 p-4 mt-4"
@@ -229,7 +229,7 @@ const FoodDetails: React.FC = () => {
             I want this!
           </button>
         </div>
-      )}
+      ) : undefined}
 
       <FooterBar />
 
