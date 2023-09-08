@@ -42,7 +42,7 @@ const FoodList: React.FC = () => {
       <div className="flex-grow overflow-y-auto">
         <div className="grid grid-cols-2 gap-4 p-4">
           {foodData.map((item) => (
-            <div key={item.foodId} className="relative">
+            <div key={item.foodId} className="relative bg-white p-4 rounded-xl shadow-md">
               <Link to={`/food-details/${item.foodId}`}>
                 <img
                   src={
