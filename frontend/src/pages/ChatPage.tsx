@@ -5,6 +5,8 @@ import { useRecoilValue } from "recoil";
 import { myUserState } from "../utils/myUserState";
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
+import { serverHostName } from "../utils/serverHostName";
+import toast from "react-hot-toast";
 
 interface ChatItem {
   chatId: number;
@@ -34,8 +36,9 @@ const ChatPage: React.FC = () => {
 
   const handleTransactionCompletion = async () => {
     try {
-      await axios.put(`http://localhost:3000/deals/${dealId}`);
+      await axios.put(`${serverHostName}/deals/${dealId}`);
       navigate("/deal-list");
+      toast.success("The food deal has been completed.");
     } catch (error) {
       console.error("There was an error updating the deal data:", error);
     }
@@ -43,7 +46,7 @@ const ChatPage: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/chats/${dealId}`)
+      .get(`${serverHostName}/chats/${dealId}`)
       .then((response) => {
         setChats(response.data);
       })
@@ -52,20 +55,24 @@ const ChatPage: React.FC = () => {
       });
   }, [dealId]);
 
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom when the chat is updated
+  }, [chats]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!message) return;
 
     try {
-      await axios.post("http://localhost:3000/chats", {
+      await axios.post(`${serverHostName}/chats`, {
         dealId: parseInt(dealId ? dealId : "0"),
         senderId: senderId,
         content: message,
       });
 
       setMessage("");
-      const response = await axios.get(`http://localhost:3000/chats/${dealId}`);
+      const response = await axios.get(`${serverHostName}/chats/${dealId}`);
       setChats(response.data);
     } catch (error) {
       console.error("There was an error posting the chat data:", error);
@@ -79,7 +86,7 @@ const ChatPage: React.FC = () => {
       {isOwner && (
         <button
           type="button"
-          className="btn btn-success shadow w-[full-2] sticky top-12 m-1 z-50"
+          className="btn btn-success shadow-md sticky top-[4.5rem] m-1 z-50 bg-opacity-95"
           onClick={handleTransactionCompletion}
         >
           Transaction Completion
@@ -101,7 +108,7 @@ const ChatPage: React.FC = () => {
                   {new Date(chat.createdAt).toLocaleString()}
                 </time>
               </div>
-              <div className="chat-bubble chat-bubble-primary">
+              <div className="chat-bubble chat-bubble-secondary prose break-words">
                 {chat.content}
               </div>
             </div>
@@ -118,7 +125,7 @@ const ChatPage: React.FC = () => {
                   {new Date(chat.createdAt).toLocaleString()}
                 </time>
               </div>
-              <div className="chat-bubble chat-bubble-secondary prose">
+              <div className="chat-bubble chat-bubble-primary prose break-words">
                 {chat.content}
               </div>
             </div>
@@ -127,23 +134,25 @@ const ChatPage: React.FC = () => {
       </div>
       {/* Input form */}
       <form
-        className="sticky flex bottom-14 mx-1 w-[full-2] mb-1 mt-2 justify-center"
+        className="sticky flex bottom-14 mx-1 mb-1 mt-2 justify-center"
         onSubmit={handleSubmit}
       >
-        <input
-          type="text"
-          placeholder="Type your message..."
-          className="input input-bordered input-md input-primary w-full mx-1 shadow"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="btn bg-success text-base-100 shadow"
-          // onClick={handleSubmit}
-        >
-          <span className="i-fluent-send-32-filled" />
-        </button>
+        <div className="join w-full shadow">
+          <input
+            type="text"
+            placeholder="Type your message..."
+            className="join-item input input-bordered input-md input-primary w-full"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="join-item btn bg-primary text-base-100 border-primary"
+            // onClick={handleSubmit}
+          >
+            <span className="i-fluent-send-32-filled text-base" />
+          </button>
+        </div>
       </form>
       {/* Footer */}
       <FooterBar />

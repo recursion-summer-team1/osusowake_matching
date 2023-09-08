@@ -23,6 +23,7 @@ module.exports = {
         mytheme: {
           ...require("daisyui/src/theming/themes")["[data-theme=cupcake]"],
           // "primary": "blue",
+          // "--rounded-btn": "1.0rem",
         },
       },
     ],
