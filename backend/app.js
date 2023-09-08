@@ -15,7 +15,7 @@ const app = express();
 
 const corsOptions = {
   origin: "*", // 実際のフロントエンドのURLに変更してください
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
 
