@@ -195,7 +195,7 @@ const FoodDetails: React.FC = () => {
                   />
                 </div>
               </div>
-              {foodItem.userN;ame}
+              {foodItem.userName}
             </div>
           </div>
           <div className="flex items-center mb-1 space-x-2">
