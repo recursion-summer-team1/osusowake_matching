@@ -5,4 +5,5 @@ export type FoodItem = {
   avatarUrl: string;
   foodName: string;
   foodImageUrl: string;
+  isSoldOut: boolean;
 };
