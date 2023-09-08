@@ -39,9 +39,13 @@ const ChatPage: React.FC = () => {
   const myUser = useRecoilValue(myUserState);
   const senderId = Number(myUser?.userId); //ログイン機能実装時に変更
 
-  const socket = useMemo(() => io("http://localhost:3000", {
-    transports: ["websocket"],
-  }), []);
+  const socket = useMemo(
+    () =>
+      io("http://localhost:3000", {
+        transports: ["websocket"],
+      }),
+    [],
+  );
 
   const handleTransactionCompletion = async () => {
     try {
@@ -55,20 +59,24 @@ const ChatPage: React.FC = () => {
   useEffect(() => {
     const fetchAvatarUrl = async (userId: number) => {
       try {
-          const response = await axios.get(
-            `http://localhost:3000/users/${userId}`,
-          );
-          return response.data.avatarUrl;
+        const response = await axios.get(
+          `http://localhost:3000/users/${userId}`,
+        );
+        return response.data.avatarUrl;
       } catch (error) {
         console.error("Error fetching the user data:", error);
       }
     };
 
     if (senderId) {
-      fetchAvatarUrl(senderId).then((avatarUrl) => setSenderAvatarUrl(avatarUrl));
+      fetchAvatarUrl(senderId).then((avatarUrl) =>
+        setSenderAvatarUrl(avatarUrl),
+      );
     }
-    if (receiverId){
-      fetchAvatarUrl(receiverId).then((avatarUrl) => setReceiverAvatarUrl(avatarUrl));
+    if (receiverId) {
+      fetchAvatarUrl(receiverId).then((avatarUrl) =>
+        setReceiverAvatarUrl(avatarUrl),
+      );
     }
 
     axios
@@ -80,18 +88,21 @@ const ChatPage: React.FC = () => {
         console.error("There was an error fetching the chat data:", error);
       });
 
-      socket.on('new-message', (newMessage: ChatItem) => {
-        console.log("newMessage:", newMessage);
-        setChats((prevChats) => [...prevChats, newMessage]);
-      });
+    socket.emit("join-room", `deal_${dealId}`);
 
-      socket.on('message-error', (errorData) => {
-        console.error('Error from server:', errorData);
-      });
-      return () => {
-        socket.off('new-message');
-        socket.off('message-error');
-      }
+    socket.on("new-message", (newMessage: ChatItem) => {
+      console.log("newMessage:", newMessage);
+      setChats((prevChats) => [...prevChats, newMessage]);
+    });
+
+    socket.on("message-error", (errorData) => {
+      console.error("Error from server:", errorData);
+    });
+    return () => {
+      socket.off("new-message");
+      socket.off("message-error");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [senderId, receiverId, dealId]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -99,7 +110,7 @@ const ChatPage: React.FC = () => {
 
     if (!message) return;
 
-    socket.emit('send-message', {
+    socket.emit("send-message", {
       dealId: Number(dealId),
       senderId: senderId,
       content: message,
@@ -124,21 +135,27 @@ const ChatPage: React.FC = () => {
         {/* Chat messages */}
         {chats.map((chat, i) => {
           const originalDate = new Date(chat.createdAt);
-          const localDate = new Date(originalDate.getTime() - (9 * 60 * 60 * 1000));
-          const formattedDate = localDate.toLocaleString('ja-JP');
+          const localDate = new Date(
+            originalDate.getTime() - 9 * 60 * 60 * 1000,
+          );
+          const formattedDate = localDate.toLocaleString("ja-JP");
 
           return chat.senderId !== senderId ? (
             //receiver chat
             <div className="chat chat-start px-1" key={i}>
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full">
-                  <img src={ receiverAvatarUrl.startsWith("http") ? receiverAvatarUrl : `http://localhost:3000/images/avatars/${receiverAvatarUrl}` } />
+                  <img
+                    src={
+                      receiverAvatarUrl.startsWith("http")
+                        ? receiverAvatarUrl
+                        : `http://localhost:3000/images/avatars/${receiverAvatarUrl}`
+                    }
+                  />
                 </div>
               </div>
               <div className="chat-header">
-                <time className="text-xa opacity-50">
-                  {formattedDate}
-                </time>
+                <time className="text-xa opacity-50">{formattedDate}</time>
               </div>
               <div className="chat-bubble chat-bubble-primary">
                 {chat.content}
@@ -149,20 +166,24 @@ const ChatPage: React.FC = () => {
             <div className="chat chat-end px-1" key={i}>
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full">
-                  <img src={ senderAvatarUrl.startsWith("http") ? senderAvatarUrl : `http://localhost:3000/images/avatars/${senderAvatarUrl}` } />
+                  <img
+                    src={
+                      senderAvatarUrl.startsWith("http")
+                        ? senderAvatarUrl
+                        : `http://localhost:3000/images/avatars/${senderAvatarUrl}`
+                    }
+                  />
                 </div>
               </div>
               <div className="chat-header">
-                <time className="text-xs opacity-50">
-                  {formattedDate}
-                </time>
+                <time className="text-xs opacity-50">{formattedDate}</time>
               </div>
               <div className="chat-bubble chat-bubble-secondary prose">
                 {chat.content}
               </div>
             </div>
           );
-          })}
+        })}
       </div>
       {/* Input form */}
       <form

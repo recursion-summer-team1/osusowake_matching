@@ -24,30 +24,26 @@ const getFoodById = (req, res) => {
       Food.foodId = ?`;
 
   // SQLクエリの実行
-  pool.query(
-    query,
-    [foodId],
-    (err, results) => {
-      if (err) {
-        console.error("foods-getbyId.js: sql execute error:", err);
-        return res.status(500).send({
-          message: "Internal Server Error",
-          error: err.message,
-        });
-      }
+  pool.query(query, [foodId], (err, results) => {
+    if (err) {
+      console.error("foods-getbyId.js: sql execute error:", err);
+      return res.status(500).send({
+        message: "Internal Server Error",
+        error: err.message,
+      });
+    }
 
-      // 該当するデータが見つからない場合
-      if (results.length === 0) {
-        return res.status(404).send({
-          message: "Not Found",
-          error: "No food with the specified foodId exists",
-        });
-      }
+    // 該当するデータが見つからない場合
+    if (results.length === 0) {
+      return res.status(404).send({
+        message: "Not Found",
+        error: "No food with the specified foodId exists",
+      });
+    }
 
-      // データをレスポンスとして返す
-      res.send(results[0]);
-    },
-  );
+    // データをレスポンスとして返す
+    res.send(results[0]);
+  });
 };
 
 module.exports = getFoodById;

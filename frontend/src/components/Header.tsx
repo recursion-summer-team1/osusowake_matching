@@ -26,9 +26,9 @@ const Header: React.FC<HeaderProps> = ({ title, className }) => {
             onClick={handleBackClick}
             className="mr-4 p-2 rounded bg-business text-business"
           >
-          <div className="flex flex-col items-center">
-            <span className="i-fluent-arrow-circle-left-32-regular text-3xl" />
-          </div>
+            <div className="flex flex-col items-center">
+              <span className="i-fluent-arrow-circle-left-32-regular text-3xl" />
+            </div>
           </button>
         )}
         <h1 className="text-center text-business font-semibold text-xl tracking-wider">

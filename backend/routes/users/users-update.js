@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
-  }
+  },
 });
 
 const upload = multer({ storage: storage });
@@ -92,5 +92,5 @@ const executeUpdate = (query, queryParams, userId, updateData, res) => {
 };
 
 module.exports = {
-  updateUser: [upload.single("avatar"), updateUser]
+  updateUser: [upload.single("avatar"), updateUser],
 };

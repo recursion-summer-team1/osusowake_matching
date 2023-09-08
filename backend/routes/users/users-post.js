@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage});
+const upload = multer({ storage: storage });
 
 const createUser = (req, res) => {
   if (!req.body.userName || !req.body.email || !req.body.password) {

@@ -41,7 +41,9 @@ const DealPage = () => {
     foodName: string,
     receiverId?: number,
   ) => {
-    navigate(`/chat/${dealId}`, { state: { isOwner, userName, foodName, receiverId } });
+    navigate(`/chat/${dealId}`, {
+      state: { isOwner, userName, foodName, receiverId },
+    });
   };
   const myUser = useRecoilValue(myUserState); // RecoilのmyUserStateを使用
 
@@ -167,7 +169,7 @@ const DealPage = () => {
                     true,
                     food.userName,
                     food.foodName,
-                    food.receiverId
+                    food.receiverId,
                   )
                 }
                 className="btn btn-success"
@@ -230,7 +232,7 @@ const DealPage = () => {
                     false,
                     food.userName,
                     food.foodName,
-                    food.receiverId
+                    food.receiverId,
                   )
                 }
                 className="btn btn-success"
