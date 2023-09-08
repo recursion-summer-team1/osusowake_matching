@@ -187,7 +187,7 @@ const FoodDetails: React.FC = () => {
                   <img src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/117.jpg" />
                 </div>
               </div>
-              {foodItem.userName}
+              {foodItem.userN;ame}
             </div>
           </div>
           <div className="flex items-center mb-1 space-x-2">
@@ -212,7 +212,7 @@ const FoodDetails: React.FC = () => {
             Deal in progress
           </div>
         </div>
-      ) : (
+      ) : `${foodItem.userId}` !== userId ? (
         <div className="sticky flex bottom-14 mx-1 mb-1 mt-2 justify-center">
           <button
             className="btn btn-success shadow w-full sticky bottom-14 p-4 mt-4"
@@ -221,7 +221,7 @@ const FoodDetails: React.FC = () => {
             I want this!
           </button>
         </div>
-      )}
+      ) : undefined}
 
       <FooterBar />
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import FooterBar from "../components/FooterBar";
 import Header from "../components/Header";
@@ -8,6 +8,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { getLoggedInInfo, myUserState } from "../utils/myUserState";
 import { serverHostName } from "../utils/serverHostName";
+import { FoodItem } from "../utils/foodItem";
+import { Link } from "react-router-dom";
 
 type Friendships = {
   mutualFollowers: { userId: number; userName: string }[];
@@ -70,6 +72,23 @@ const MyPage = () => {
     localStorage.removeItem("me");
   }, [setMyUser]);
 
+  const [foodData, setFoodData] = useState<FoodItem[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // userIdを使用してAPIを呼び出す
+        const response = await axios.get(
+          `${serverHostName}/foods/self/${myUser?.userId}`,
+        );
+        setFoodData(response.data);
+      } catch (error) {
+        console.error("Error fetching the food data:", error);
+      }
+    };
+    fetchData();
+  }, [myUser?.userId]);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Top */}
@@ -116,6 +135,41 @@ const MyPage = () => {
                 </details>
               </div>
             ) : undefined}
+            {/* Scrollable Food Items Grid */}
+            <div className="flex-grow overflow-y-auto">
+              <div className="grid grid-cols-2 gap-4 p-4">
+                {foodData.map((item) => (
+                  <div
+                    key={item.foodId}
+                    className="relative bg-white p-4 rounded-xl shadow-md"
+                  >
+                    <Link to={`/food-details/${item.foodId}`}>
+                      {/* <div> */}
+                      <img
+                        src={
+                          item.foodImageUrl.startsWith("http")
+                            ? item.foodImageUrl
+                            : `${serverHostName}/images/foods/${item.foodImageUrl}`
+                        }
+                        alt={item.userName}
+                        className="w-full h-full object-cover rounded-md"
+                      />
+                      <span className="absolute bottom-1 left-1 bg-white bg-opacity-60 text-sm rounded">
+                        <div className="flex items-center m-1">
+                          <div className="avatar px-1">
+                            <div className="w-5 rounded-full">
+                              <img src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/117.jpg" />
+                            </div>
+                          </div>
+                          {/* {item.userName} */}
+                        </div>
+                      </span>
+                      {/* </div> */}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
             <div className="divider" />
             <div className="justify-center flex">
               <button

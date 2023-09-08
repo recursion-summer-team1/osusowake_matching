@@ -6,15 +6,7 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { myUserState } from "../utils/myUserState";
 import { serverHostName } from "../utils/serverHostName";
-
-interface FoodItem {
-  foodId: number;
-  userId: number;
-  userName: string;
-  avatarUrl: string;
-  foodName: string;
-  foodImageUrl: string;
-}
+import { FoodItem } from "../utils/foodItem";
 
 const FoodList: React.FC = () => {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
