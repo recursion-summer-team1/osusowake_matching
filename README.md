@@ -146,13 +146,9 @@ erDiagram
 | 操作 | メソッド | 処理の内容 | エンドポイント | リクエストパラメータ | レスポンス内容 |
 | --- | --- | --- | --- | --- | --- |
 | 新規登録 | POST | リクエスターと食品の登録 | /deals | userID, foodId | deal object or error message |
-| 一覧取得
-（リクエスト側） | GET | 自分がリクエストした取引を取得 | /deals/requester/:id | userId | Array of deal objects or error message |
-| 一覧取得
-（オーナー側） | GET | 自分が出品した取引を取得 | /deals/owner/:id | userId | Array of deal objects or error message |
-| 変更 | PUT | isCompleteの更新（同じfoodのすべてのレコードに対して行う） | /deals/:id | dealId(URL parameter),
-isComplete
- | Confirmation message or error |
+| 一覧取得（リクエスト側） | GET | 自分がリクエストした取引を取得 | /deals/requester/:id | userId | Array of deal objects or error message |
+| 一覧取得（オーナー側） | GET | 自分が出品した取引を取得 | /deals/owner/:id | userId | Array of deal objects or error message |
+| 変更 | PUT | isCompleteの更新（同じfoodのすべてのレコードに対して行う） | /deals/:id | dealId(URL parameter), isComplete | Confirmation message or error |
 
  #### Chatテーブル関連
  | 操作 | メソッド | 処理の内容 | エンドポイント | リクエストパラメータ | レスポンス内容 |
