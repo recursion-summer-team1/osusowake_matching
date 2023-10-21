@@ -27,10 +27,7 @@
 ### 概要
 自分のいらない食品を投稿し、友達にシェアできる. 友達はその投稿を見て、欲しい食品にリクエストを送信し、マッチングが成立すれば受け取れる.
 ### デモ
-
-
-https://github.com/KoshinHagimoto/food-share-app/assets/127278864/ae81a361-2f15-4628-a870-244a788a4e86
-
+https://github.com/recursion-summer-team1/osusowake_matching/assets/127278864/aa479f8f-cc90-45d7-a288-0112a14a9750
 
 ### ターゲットユーザー
 友達や家族などとおすそ分けをしたい人
@@ -58,7 +55,8 @@ GitHub Issuesを使って管理.<br>ラベル付けをして、優先順位別�
 - バックエンドチームはDB・API設計から開始
 
 ## 使用技術
-<img width="552" alt="スクリーンショット 2023-09-13 14 59 27" src="https://github.com/KoshinHagimoto/food-share-app/assets/127278864/36ac8a76-21cc-4606-9986-5fd914415f51">
+<img width="552" alt="スクリーンショット 2023-09-13 14 59 27" src="https://github.com/recursion-summer-team1/osusowake_matching/assets/127278864/ae9fa01f-1e98-4885-b3aa-b7461b4a4655">
+
 
 - Frontend
   - React
@@ -76,7 +74,7 @@ GitHub Issuesを使って管理.<br>ラベル付けをして、優先順位別�
   - GitHub
 ## 設計
 ### ワイヤーフレーム
-<img width="623" alt="スクリーンショット 2023-09-13 14 55 36" src="https://github.com/KoshinHagimoto/food-share-app/assets/127278864/d7d8369b-cc1a-4a6f-b323-f16d53dc8c03">
+<img width="623" alt="スクリーンショット 2023-09-13 14 55 36" src="https://github.com/recursion-summer-team1/osusowake_matching/assets/127278864/67174dd2-9da2-4c20-8d58-b7939df17188">
 
 ### DB（ER図）
 ```mermaid
